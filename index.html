@@ -773,9 +773,97 @@
     .nav-cta{ padding:8px 12px; font-size:0.74rem; }
     .hero-ctas a{ width:100%; }
   }
+
+  /* ---------- preloader ---------- */
+  #preloader{
+    position:fixed; inset:0; z-index:2000;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--forest-dark);
+    transition:opacity .6s ease, visibility .6s ease;
+  }
+  #preloader::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 700px 500px at 15% 10%, rgba(201,151,59,0.14), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 90% 90%, rgba(143,191,110,0.10), transparent 60%);
+  }
+  #preloader.loaded{ opacity:0; visibility:hidden; pointer-events:none; }
+  .preloader-inner{
+    position:relative;
+    display:flex; flex-direction:column; align-items:center; gap:22px;
+  }
+  .preloader-ring-wrap{
+    position:relative;
+    width:96px; height:96px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .preloader-ring{
+    position:absolute; inset:0;
+    border-radius:50%;
+    border:2px solid rgba(243,236,224,0.12);
+    border-top-color:var(--gold-1);
+    border-right-color:var(--gold-2);
+    animation:preloaderSpin 1.1s cubic-bezier(.5,0,.5,1) infinite;
+  }
+  .preloader-ring.ring2{
+    inset:12px;
+    border-top-color:transparent;
+    border-right-color:transparent;
+    border-bottom-color:var(--forest-light);
+    border-left-color:rgba(143,191,110,0.4);
+    animation:preloaderSpin 1.6s linear infinite reverse;
+  }
+  .preloader-logo{
+    width:38px; height:38px; object-fit:contain;
+    animation:preloaderPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes preloaderSpin{ to{ transform:rotate(360deg); } }
+  @keyframes preloaderPulse{
+    0%,100%{ transform:scale(1); opacity:1; }
+    50%{ transform:scale(0.9); opacity:0.75; }
+  }
+  .preloader-word{
+    font-family:'Anton', sans-serif;
+    font-size:1.1rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--parchment);
+    display:flex; gap:2px;
+  }
+  .preloader-word span{
+    display:inline-block;
+    opacity:0.25;
+    animation:preloaderLetter 1.4s ease-in-out infinite;
+  }
+  .preloader-sub{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:rgba(243,236,224,0.45);
+  }
+  @keyframes preloaderLetter{
+    0%,60%,100%{ opacity:0.25; transform:translateY(0); }
+    30%{ opacity:1; transform:translateY(-3px); color:var(--gold-1); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    #preloader{ transition:none; }
+    .preloader-ring, .preloader-ring.ring2, .preloader-logo, .preloader-word span{ animation:none; }
+  }
 </style>
 </head>
 <body>
+
+<div id="preloader">
+  <div class="preloader-inner">
+    <div class="preloader-ring-wrap">
+      <div class="preloader-ring"></div>
+      <div class="preloader-ring ring2"></div>
+      <img class="preloader-logo" src="./image/logo.png" alt="">
+    </div>
+    <div class="preloader-word" aria-label="Frunch Forest">
+      <span style="animation-delay:0s">F</span><span style="animation-delay:.07s">r</span><span style="animation-delay:.14s">u</span><span style="animation-delay:.21s">n</span><span style="animation-delay:.28s">c</span><span style="animation-delay:.35s">h</span><span style="animation-delay:.46s">&nbsp;</span><span style="animation-delay:.53s">F</span><span style="animation-delay:.6s">o</span><span style="animation-delay:.67s">r</span><span style="animation-delay:.74s">e</span><span style="animation-delay:.81s">s</span><span style="animation-delay:.88s">t</span>
+    </div>
+    <div class="preloader-sub">crunch in every bite</div>
+  </div>
+</div>
 
 <div class="progress-bar" id="progressBar"></div>
 
@@ -1143,6 +1231,21 @@
 </footer>
 
 <script>
+  // preloader: hide once page is fully loaded (with a safety fallback)
+  (function(){
+    const pre = document.getElementById('preloader');
+    if(!pre) return;
+    let hidden = false;
+    function hidePreloader(){
+      if(hidden) return;
+      hidden = true;
+      pre.classList.add('loaded');
+      setTimeout(()=> pre.remove(), 700);
+    }
+    window.addEventListener('load', hidePreloader);
+    setTimeout(hidePreloader, 2500); // fallback so it never gets stuck
+  })();
+
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
       if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
