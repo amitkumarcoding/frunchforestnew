@@ -461,6 +461,14 @@
   .all-products-btn:hover{ background:var(--gold-1); }
   .all-products-btn svg{ transition:transform .25s ease; }
   .all-products-btn:hover svg{ transform:translateX(3px); }
+  .see-all-wrap{ display:flex; justify-content:center; margin:12px 0 56px; }
+  .see-all-btn{
+    border:1.5px solid var(--forest-mid); color:var(--forest-dark);
+    background:transparent;
+  }
+  .see-all-btn:hover{ background:var(--forest-dark); color:var(--parchment); border-color:var(--forest-dark); }
+  .see-all-btn svg{ width:16px; height:16px; transition:transform .25s ease; }
+  .see-all-btn:hover svg{ transform:translateX(3px); }
   .product-grid{
     display:grid;
     grid-template-columns:repeat(3, 1fr);
@@ -993,7 +1001,7 @@
       <a href="#faq">FAQ</a>
       <a href="#contact">Contact</a>
     </nav>
-    <a class="btn-download" href="./resources/frunch-forest-catalog.pdf" download="Frunch-Forest-Catalog.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Download Catalog</a>
+    <a class="btn-download" href="frunch-forest-catalog.pdf"download="Frunch-Forest-Catalog.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Download Catalog</a>
     <a class="nav-cta" href="#contact">Get in touch</a>
   </div>
 </header>
@@ -1258,42 +1266,11 @@
           </div>
         </div>
       </div>
-      <div class="testimonial-card reveal">
-        <span class="quote-mark">"</span>
-        <div class="stars">★★★★★</div>
-        <p class="quote-text">Cashews are consistently large and creamy, batch after batch. That consistency is rare — it's why we haven't switched suppliers.</p>
-        <div class="testimonial-who">
-          <div class="testimonial-avatar">S</div>
-          <div>
-            <span class="name">Sanjeev Kumar</span>
-            <span class="loc">Jaipur, Rajasthan</span>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card reveal">
-        <span class="quote-mark">"</span>
-        <div class="stars">★★★★★</div>
-        <p class="quote-text">My kids actually ask for raisins and makhaana as snacks now instead of chips. Clean ingredients you can actually pronounce.</p>
-        <div class="testimonial-who">
-          <div class="testimonial-avatar">N</div>
-          <div>
-            <span class="name">Neha Kapoor</span>
-            <span class="loc">Pune, Maharashtra</span>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card reveal">
-        <span class="quote-mark">"</span>
-        <div class="stars">★★★★★</div>
-        <p class="quote-text">Bulk ordered for a wedding function and the team was responsive, delivery was on time, and every pack was sealed perfectly.</p>
-        <div class="testimonial-who">
-          <div class="testimonial-avatar">V</div>
-          <div>
-            <span class="name">Vikram Singh</span>
-            <span class="loc">Lucknow, Uttar Pradesh</span>
-          </div>
-        </div>
-      </div>
+    </div>
+    <div class="see-all-wrap">
+      <a class="btn-primary see-all-btn" href="testimonials.html">See All Reviews
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+      </a>
     </div>
     <div class="testimonial-strip reveal">
       <div class="stat"><b>4.9★</b><span>Average rating</span></div>
