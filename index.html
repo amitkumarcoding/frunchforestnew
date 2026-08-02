@@ -268,7 +268,123 @@
     transition:transform .7s ease;
   }
   .nav-cta:hover::before{ transform:translateX(120%); }
-  @media (max-width:780px){ .nav-links{ display:none; } }
+
+  /* ---------- mobile hamburger ---------- */
+  .nav-burger{
+    display:none;
+    position:relative;
+    width:44px; height:44px; flex-shrink:0;
+    align-items:center; justify-content:center;
+    flex-direction:column; gap:6px;
+    border-radius:12px;
+    border:1px solid rgba(19,42,30,0.14);
+    background:rgba(255,255,255,0.55);
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:background .3s ease, border-color .3s ease, box-shadow .3s ease, transform .2s ease;
+    animation:burgerBreathe 3.6s ease-in-out infinite;
+  }
+  .nav-burger:hover{
+    background:rgba(241,212,138,0.22); border-color:rgba(241,212,138,0.55);
+    transform:translateY(-1px);
+  }
+  .nav-burger:active{ transform:translateY(0) scale(0.92); }
+  @keyframes burgerBreathe{
+    0%,100%{ box-shadow:0 0 0 0 rgba(201,151,59,0); }
+    50%{ box-shadow:0 0 0 6px rgba(201,151,59,0.08); }
+  }
+  .burger-line{
+    display:block; width:20px; height:2px; border-radius:2px;
+    background:var(--forest-dark);
+    transform-origin:center;
+    transition:transform .45s cubic-bezier(.6,-0.3,.4,1.4), opacity .25s ease, width .3s ease, background .35s ease;
+  }
+  .burger-line:nth-child(3){ width:13px; align-self:flex-end; margin-right:2px; }
+  .nav-burger:hover .burger-line:nth-child(3){ width:20px; margin-right:0; }
+  .nav-burger.open{ background:rgba(19,42,30,0.92); border-color:rgba(19,42,30,0.92); animation:none; }
+  .nav-burger.open .burger-line{ background:var(--gold-1); }
+  .nav-burger.open .burger-line:nth-child(1){ transform:translateY(8px) rotate(45deg); }
+  .nav-burger.open .burger-line:nth-child(2){ opacity:0; transform:scaleX(0); }
+  .nav-burger.open .burger-line:nth-child(3){ width:20px; margin-right:0; transform:translateY(-8px) rotate(-45deg); }
+  @media (prefers-reduced-motion: reduce){
+    .nav-burger{ animation:none; }
+    .burger-line{ transition:opacity .2s ease, background .2s ease; }
+    .nav-burger.open .burger-line:nth-child(1),
+    .nav-burger.open .burger-line:nth-child(3){ transform:none; }
+  }
+
+  /* ---------- mobile menu panel ---------- */
+  .mobile-menu-backdrop{
+    position:fixed; inset:0; z-index:60;
+    background:rgba(19,42,30,0.55);
+    backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px);
+    opacity:0; visibility:hidden;
+    transition:opacity .4s ease, visibility .4s ease;
+  }
+  .mobile-menu-backdrop.open{ opacity:1; visibility:visible; }
+  .mobile-menu{
+    position:fixed; top:0; right:0; height:100%;
+    width:min(360px, 86vw);
+    z-index:61;
+    display:flex; flex-direction:column;
+    padding:96px 30px 32px;
+    background:linear-gradient(165deg, rgba(19,42,30,0.98), rgba(63,92,56,0.96));
+    box-shadow:-24px 0 70px -24px rgba(0,0,0,0.55);
+    transform:translateX(100%);
+    transition:transform .55s cubic-bezier(.16,1,.3,1);
+    overflow-y:auto;
+  }
+  .mobile-menu.open{ transform:translateX(0); }
+  .mobile-menu-close{
+    position:absolute; top:22px; right:22px;
+    width:38px; height:38px; border-radius:50%;
+    background:rgba(243,236,224,0.08); border:1px solid rgba(243,236,224,0.22);
+    color:var(--parchment); font-size:1.1rem; line-height:1;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:background .25s ease, transform .25s ease, border-color .25s ease;
+  }
+  .mobile-menu-close:hover{ background:rgba(241,212,138,0.18); border-color:rgba(241,212,138,0.5); transform:rotate(90deg); }
+  .mobile-menu-links{ display:flex; flex-direction:column; margin-bottom:28px; }
+  .mobile-menu-links a{
+    display:flex; align-items:baseline; gap:12px;
+    padding:15px 2px;
+    font-family:'Anton', sans-serif; text-transform:uppercase; letter-spacing:0.01em;
+    font-size:1.28rem; color:var(--parchment); text-decoration:none;
+    border-bottom:1px solid rgba(243,236,224,0.1);
+    opacity:0; transform:translateX(28px);
+    transition:opacity .45s ease, transform .45s ease, color .25s ease, padding-left .25s ease;
+  }
+  .mobile-menu.open .mobile-menu-links a{ opacity:1; transform:translateX(0); }
+  .mobile-menu-links a:nth-child(1){ transition-delay:.10s; }
+  .mobile-menu-links a:nth-child(2){ transition-delay:.15s; }
+  .mobile-menu-links a:nth-child(3){ transition-delay:.20s; }
+  .mobile-menu-links a:nth-child(4){ transition-delay:.25s; }
+  .mobile-menu-links a:nth-child(5){ transition-delay:.30s; }
+  .mobile-menu-links a:nth-child(6){ transition-delay:.35s; }
+  .mobile-menu-links a:nth-child(7){ transition-delay:.40s; }
+  .mobile-menu-links a .mm-index{
+    font-family:'JetBrains Mono', monospace; text-transform:none; letter-spacing:0;
+    font-size:0.72rem; color:var(--gold-1); opacity:0.75;
+  }
+  .mobile-menu-links a:hover, .mobile-menu-links a:focus-visible{ color:var(--gold-1); padding-left:8px; outline:none; }
+  .mobile-menu-actions{
+    display:flex; flex-direction:column; gap:12px; margin-top:auto;
+    opacity:0; transform:translateY(18px);
+    transition:opacity .45s ease .42s, transform .45s ease .42s;
+  }
+  .mobile-menu.open .mobile-menu-actions{ opacity:1; transform:translateY(0); }
+  .mobile-menu-actions .btn-primary,
+  .mobile-menu-actions .btn-download{ width:100%; justify-content:center; }
+  body.menu-open{ overflow:hidden; }
+  @media (prefers-reduced-motion: reduce){
+    .mobile-menu, .mobile-menu-backdrop, .mobile-menu-links a, .mobile-menu-actions{ transition-duration:.15s; transition-delay:0s !important; }
+  }
+  @media (max-width:780px){
+    .nav-links{ display:none; }
+    .nav > .nav-cta,
+    .nav > .btn-download{ display:none; }
+    .nav-burger{ display:inline-flex; }
+  }
 
   /* ---------- hero ---------- */
   .hero{
@@ -569,11 +685,31 @@
   }
 
   /* ---------- gifting ---------- */
-  #gifting{ background:linear-gradient(135deg, rgba(19,42,30,0.96), rgba(63,92,56,0.94)); }
+  #gifting{
+    position:relative; isolation:isolate; overflow:hidden;
+    background:var(--forest-dark);
+  }
+  .gifting-bg{ position:absolute; inset:0; z-index:0; overflow:hidden; }
+  .gifting-bg-slide{
+    position:absolute; inset:0;
+    background-size:cover; background-position:center;
+    opacity:0;
+    transform:scale(1.08);
+    transition:opacity 1.1s ease, transform 6s ease;
+  }
+  .gifting-bg-slide.active{ opacity:1; transform:scale(1); }
+  .gifting-bg-overlay{
+    position:absolute; inset:0; z-index:1;
+    background:
+      radial-gradient(1000px 520px at 85% -10%, rgba(241,212,138,0.16), transparent 60%),
+      linear-gradient(135deg, rgba(19,42,30,0.94), rgba(63,92,56,0.86));
+  }
+  #gifting .wrap{ position:relative; z-index:2; }
   .gifting-wrap{
     background:linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
     border:1px solid rgba(255,255,255,0.16); border-radius:28px; padding:54px 42px;
-    box-shadow:0 24px 50px -24px rgba(0,0,0,0.35);
+    backdrop-filter:blur(18px) saturate(140%); -webkit-backdrop-filter:blur(18px) saturate(140%);
+    box-shadow:0 24px 50px -24px rgba(0,0,0,0.5);
   }
   .gifting-grid{ display:grid; grid-template-columns:1.05fr 0.95fr; gap:44px; align-items:center; }
   .gifting-copy h2{ font-size:clamp(2rem,3.6vw,2.8rem); color:var(--parchment); margin-bottom:16px; }
@@ -621,6 +757,7 @@
     .gifting-visual{ aspect-ratio:16/10; order:-1; }
   }
   @media (max-width:760px){ .gifting-wrap{ padding:36px 24px; } .gifting-tags{ gap:8px; } }
+  @media (prefers-reduced-motion: reduce){ .gifting-bg-slide{ transition:opacity .3s ease; transform:none; } }
 
   /* ---------- bulk & corporate orders ---------- */
   #bulk{ background:var(--parchment-deep); }
@@ -672,6 +809,70 @@
     .bulk-cta{ flex-direction:column; align-items:flex-start; }
   }
   @media (max-width:480px){ .bulk-includes{ grid-template-columns:1fr; } }
+
+  /* ---------- bulk & corporate: premium slideshow background ---------- */
+  #bulk{
+    position:relative;
+    isolation:isolate;
+    background:var(--forest-dark);
+    padding-top:96px; padding-bottom:96px;
+  }
+  .bulk-bg{ position:absolute; inset:0; z-index:0; overflow:hidden; }
+  .bulk-bg-slide{
+    position:absolute; inset:0;
+    background-size:cover; background-position:center;
+    opacity:0;
+    transform:scale(1.06);
+    transition:opacity 1.8s ease;
+    animation:bulkKenBurns 20s ease-in-out infinite both;
+  }
+  .bulk-bg-slide.active{ opacity:1; }
+  .bulk-bg-slide:nth-child(1){ animation-delay:0s;    background-image:linear-gradient(135deg, rgba(62,124,74,0.38), rgba(19,42,30,0.15)), url('./image/bulk-bg-1.jpg'); }
+  .bulk-bg-slide:nth-child(2){ animation-delay:-5s;   background-image:linear-gradient(135deg, rgba(201,151,59,0.32), rgba(19,42,30,0.15)), url('./image/bulk-bg-2.jpg'); }
+  .bulk-bg-slide:nth-child(3){ animation-delay:-10s;  background-image:linear-gradient(135deg, rgba(139,100,32,0.34), rgba(19,42,30,0.15)), url('./image/bulk-bg-3.jpg'); }
+  .bulk-bg-slide:nth-child(4){ animation-delay:-15s;  background-image:linear-gradient(135deg, rgba(62,124,74,0.3), rgba(19,42,30,0.15)), url('./image/bulk-bg-4.jpg'); }
+  @keyframes bulkKenBurns{
+    0%{ transform:scale(1); }
+    100%{ transform:scale(1.12); }
+  }
+  .bulk-bg-overlay{
+    position:absolute; inset:0; z-index:1;
+    background:
+      radial-gradient(1100px 520px at 12% -10%, rgba(241,212,138,0.16), transparent 60%),
+      radial-gradient(900px 500px at 100% 110%, rgba(143,191,110,0.14), transparent 60%),
+      linear-gradient(160deg, rgba(19,42,30,0.94), rgba(19,42,30,0.85) 45%, rgba(19,42,30,0.95));
+  }
+  #bulk .wrap{ position:relative; z-index:2; }
+  #bulk .bulk-wrap{
+    background:rgba(243,236,224,0.06);
+    border:1px solid rgba(243,236,224,0.18);
+    backdrop-filter:blur(24px) saturate(150%);
+    -webkit-backdrop-filter:blur(24px) saturate(150%);
+    box-shadow:0 40px 80px -34px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.09) inset;
+  }
+  #bulk .eyebrow{ color:var(--gold-1); border-color:rgba(241,212,138,0.35); background:rgba(241,212,138,0.08); }
+  #bulk .eyebrow .dot{ background:var(--gold-1); }
+  #bulk .bulk-head h2{ color:var(--parchment); }
+  #bulk .bulk-head p{ color:rgba(243,236,224,0.78); }
+  #bulk .bulk-perfect-label,
+  #bulk .bulk-includes-label{ color:var(--gold-1); }
+  #bulk .bulk-tag{
+    background:rgba(243,236,224,0.08);
+    color:var(--parchment);
+    border:1px solid rgba(243,236,224,0.22);
+  }
+  #bulk .bulk-include-item{
+    background:rgba(19,42,30,0.4);
+    border:1px solid rgba(243,236,224,0.14);
+    color:var(--parchment);
+  }
+  #bulk .bulk-include-item::before{ color:var(--gold-1); }
+  #bulk .bulk-includes{ border-top-color:rgba(243,236,224,0.18); }
+  @media (prefers-reduced-motion: reduce){
+    .bulk-bg-slide{ animation:none !important; transform:none !important; opacity:0; }
+    .bulk-bg-slide.active{ opacity:1; }
+  }
+  @media (max-width:640px){ #bulk{ padding-top:64px; padding-bottom:64px; } }
 
   /* ---------- why choose us ---------- */
   .why-grid{
@@ -1557,8 +1758,31 @@
     </nav>
     <a class="btn-download" href="./resources/frunch-forest-catalog.pdf" download="./resources/frunch-forest-catalog.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Download Catalog</a>
     <a class="nav-cta" href="#contact">Get in touch</a>
+    <button class="nav-burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+    </button>
   </div>
 </header>
+
+<div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
+<nav class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">✕</button>
+  <div class="mobile-menu-links">
+    <a href="#about"><span class="mm-index">01</span>About</a>
+    <a href="#why"><span class="mm-index">02</span>Why Us</a>
+    <a href="#products"><span class="mm-index">03</span>Products</a>
+    <a href="#packaging"><span class="mm-index">04</span>Packaging</a>
+    <a href="#testimonials"><span class="mm-index">05</span>Reviews</a>
+    <a href="#faq"><span class="mm-index">06</span>FAQ</a>
+    <a href="#contact"><span class="mm-index">07</span>Contact</a>
+  </div>
+  <div class="mobile-menu-actions">
+    <a class="btn-download" href="./resources/frunch-forest-catalog.pdf" download="./resources/frunch-forest-catalog.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Download Catalog</a>
+    <a class="btn-primary" href="#contact">Get in touch →</a>
+  </div>
+</nav>
 
 <section class="hero" id="heroSection">
   <video class="hero-video-bg" autoplay muted loop playsinline poster="./image/logo.png">
@@ -1751,6 +1975,14 @@
 
 <section id="gifting">
   <span class="sec-line"></span>
+  <div class="gifting-bg" aria-hidden="true">
+    <div class="gifting-bg-slide active" data-bg="diwali" style="background-image:url('./diwali2.jpg')"></div>
+    <div class="gifting-bg-slide" data-bg="corporate" style="background-image:url('./image/gifting-corporate.jpg')"></div>
+    <div class="gifting-bg-slide" data-bg="wedding" style="background-image:url('./image/gifting-wedding.jpg')"></div>
+    <div class="gifting-bg-slide" data-bg="events" style="background-image:url('./image/gifting-events.jpg')"></div>
+    <div class="gifting-bg-slide" data-bg="employee" style="background-image:url('./image/gifting-employee.jpg')"></div>
+  </div>
+  <div class="gifting-bg-overlay" aria-hidden="true"></div>
   <div class="wrap gifting-wrap reveal">
     <div class="gifting-grid">
       <div class="gifting-copy">
@@ -1799,12 +2031,19 @@
 
 <section id="bulk">
   <span class="sec-line"></span>
+  <div class="bulk-bg" aria-hidden="true">
+    <div class="bulk-bg-slide active"></div>
+    <div class="bulk-bg-slide"></div>
+    <div class="bulk-bg-slide"></div>
+    <div class="bulk-bg-slide"></div>
+  </div>
+  <div class="bulk-bg-overlay" aria-hidden="true"></div>
   <div class="wrap">
     <div class="bulk-wrap reveal">
       <div class="eyebrow"><span class="dot"></span>Bulk &amp; Corporate Orders</div>
       <div class="bulk-head">
         <h2>Bulk &amp; Corporate Orders</h2>
-        <p>Stocking a pantry, planning an event, or sourcing for resale? We supply premium dry fruits at scale — consistent quality, reliable timelines, and pricing built for bulk.</p>
+        <p>Already looked at gifting above? This is for larger, business-scale orders. Stocking a pantry, planning an event, or sourcing for resale? We supply premium dry fruits at scale — consistent quality, reliable timelines, and pricing built for bulk.</p>
       </div>
 
       <div class="bulk-perfect">
@@ -1826,7 +2065,6 @@
         <div class="bulk-include-item">MOQ</div>
         <div class="bulk-include-item">Custom packaging</div>
         <div class="bulk-include-item">Private labeling</div>
-        <div class="bulk-include-item">Corporate gifting</div>
         <div class="bulk-include-item">Delivery timelines</div>
         <div class="bulk-include-item">GST invoice</div>
         <div class="bulk-include-item">Bulk pricing</div>
@@ -2602,10 +2840,12 @@
   (function(){
     const tags = document.querySelectorAll('.gifting-tag');
     const items = document.querySelectorAll('.gifting-visual-item');
+    const bgSlides = document.querySelectorAll('.gifting-bg-slide');
     if(!tags.length || !items.length) return;
     function activate(target){
       tags.forEach(t=> t.classList.toggle('active', t.getAttribute('data-target') === target));
       items.forEach(it=> it.classList.toggle('active', it.getAttribute('data-item') === target));
+      bgSlides.forEach(b=> b.classList.toggle('active', b.getAttribute('data-bg') === target));
     }
     tags.forEach(tag=>{
       const target = tag.getAttribute('data-target');
@@ -2623,6 +2863,57 @@
       img.addEventListener('load', ()=> item.classList.add('has-photo'));
       img.addEventListener('error', ()=>{ img.style.display = 'none'; item.classList.remove('has-photo'); });
     });
+  })();
+
+  // mobile hamburger menu: animated toggle, backdrop, escape/resize/link-click close
+  (function(){
+    const burger = document.getElementById('navBurger');
+    const menu = document.getElementById('mobileMenu');
+    const backdrop = document.getElementById('mobileMenuBackdrop');
+    const closeBtn = document.getElementById('mobileMenuClose');
+    if(!burger || !menu || !backdrop) return;
+    const links = menu.querySelectorAll('a');
+
+    function openMenu(){
+      burger.classList.add('open');
+      burger.setAttribute('aria-expanded', 'true');
+      menu.classList.add('open');
+      menu.setAttribute('aria-hidden', 'false');
+      backdrop.classList.add('open');
+      document.body.classList.add('menu-open');
+    }
+    function closeMenu(){
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      menu.classList.remove('open');
+      menu.setAttribute('aria-hidden', 'true');
+      backdrop.classList.remove('open');
+      document.body.classList.remove('menu-open');
+    }
+    burger.addEventListener('click', ()=>{
+      burger.classList.contains('open') ? closeMenu() : openMenu();
+    });
+    backdrop.addEventListener('click', closeMenu);
+    if(closeBtn) closeBtn.addEventListener('click', closeMenu);
+    links.forEach(a=> a.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
+    window.addEventListener('resize', ()=>{ if(window.innerWidth > 780) closeMenu(); });
+  })();
+
+  // bulk & corporate: background slideshow, crossfades every 4.5s
+  (function(){
+    const slides = document.querySelectorAll('.bulk-bg-slide');
+    if(slides.length < 2) return;
+    let current = 0;
+    if(reduceMotion){
+      slides.forEach((s,i)=> s.classList.toggle('active', i===0));
+      return;
+    }
+    setInterval(()=>{
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 4500);
   })();
 
   // faq accordion
