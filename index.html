@@ -77,6 +77,34 @@
   }
   @media (max-width:640px){ .wrap{padding:0 20px;} }
 
+  /* ---------- floating whatsapp button ---------- */
+  .whatsapp-float{
+    position:fixed;
+    bottom:24px; right:24px;
+    z-index:900;
+    width:60px; height:60px;
+    border-radius:50%;
+    background:#25D366;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 24px -6px rgba(19,42,30,0.45);
+    transition:transform .25s ease, box-shadow .25s ease;
+    animation:waPulse 2.4s ease-in-out infinite;
+  }
+  .whatsapp-float:hover{
+    transform:translateY(-4px) scale(1.05);
+    box-shadow:0 12px 30px -6px rgba(19,42,30,0.55);
+  }
+  .whatsapp-float svg{ width:32px; height:32px; }
+  @keyframes waPulse{
+    0%,100%{ box-shadow:0 8px 24px -6px rgba(19,42,30,0.45), 0 0 0 0 rgba(37,211,102,0.5); }
+    50%{ box-shadow:0 8px 24px -6px rgba(19,42,30,0.45), 0 0 0 10px rgba(37,211,102,0); }
+  }
+  @media (prefers-reduced-motion: reduce){ .whatsapp-float{ animation:none; } }
+  @media (max-width:640px){
+    .whatsapp-float{ width:52px; height:52px; bottom:18px; right:18px; }
+    .whatsapp-float svg{ width:28px; height:28px; }
+  }
+
   /* ---------- premium marquee ticker ---------- */
   .marquee{
     background:var(--forest-dark);
@@ -1230,6 +1258,12 @@
     </div>
   </div>
 </footer>
+
+<a class="whatsapp-float" href="https://wa.me/919582122419" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 32 32" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16.004 3C9.377 3 4 8.373 4 15c0 2.34.652 4.527 1.786 6.393L4 29l7.86-1.746A11.93 11.93 0 0 0 16.004 27C22.63 27 28 21.627 28 15S22.63 3 16.004 3Zm0 21.818a9.77 9.77 0 0 1-4.98-1.362l-.357-.213-4.66 1.035 1.005-4.55-.234-.372A9.76 9.76 0 0 1 5.182 15c0-5.966 4.856-10.818 10.822-10.818 5.965 0 10.818 4.852 10.818 10.818 0 5.966-4.853 10.818-10.818 10.818Zm5.938-8.109c-.325-.163-1.924-.95-2.222-1.058-.298-.109-.515-.163-.732.163-.217.325-.84 1.058-1.03 1.276-.19.217-.38.244-.705.081-.325-.163-1.372-.505-2.613-1.61-.966-.861-1.618-1.925-1.808-2.25-.19-.325-.02-.5.143-.663.146-.146.325-.38.488-.57.163-.19.217-.325.325-.542.108-.217.054-.407-.027-.57-.081-.163-.732-1.766-1.003-2.419-.264-.635-.532-.549-.732-.56-.19-.008-.407-.01-.624-.01-.217 0-.57.081-.868.407-.298.325-1.138 1.113-1.138 2.716 0 1.603 1.166 3.152 1.328 3.369.163.217 2.294 3.502 5.559 4.912.777.335 1.383.535 1.856.685.78.248 1.489.213 2.05.13.625-.093 1.924-.786 2.196-1.545.271-.759.271-1.41.19-1.545-.081-.136-.298-.217-.623-.38Z"/>
+  </svg>
+</a>
 
 <script>
   // preloader: hide once page is fully loaded (with a safety fallback)
