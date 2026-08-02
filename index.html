@@ -190,7 +190,19 @@
       radial-gradient(ellipse 900px 500px at 82% -10%, rgba(62,124,74,0.18), transparent 60%),
       radial-gradient(ellipse 700px 500px at -5% 100%, rgba(201,151,59,0.14), transparent 55%);
   }
-  .hero-inner{ padding-bottom:70px; }
+  .hero-video-bg{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    z-index:0;
+  }
+  .hero-video-overlay{
+    position:absolute; inset:0;
+    z-index:1;
+    background:
+      linear-gradient(180deg, rgba(243,236,224,0.94) 0%, rgba(243,236,224,0.86) 55%, var(--parchment) 100%);
+  }
+  .hero-inner{ padding-bottom:70px; position:relative; z-index:2; }
   .hero-grid{
     display:grid;
     grid-template-columns:1.15fr 0.85fr;
@@ -981,12 +993,16 @@
       <a href="#faq">FAQ</a>
       <a href="#contact">Contact</a>
     </nav>
-    <a class="btn-download" href="frunch-forest-catalog.pdf"download="Frunch-Forest-Catalog.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Download Catalog</a>
+    <a class="btn-download" href="./resources/frunch-forest-catalog.pdf" download="Frunch-Forest-Catalog.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Download Catalog</a>
     <a class="nav-cta" href="#contact">Get in touch</a>
   </div>
 </header>
 
 <section class="hero" id="heroSection">
+  <video class="hero-video-bg" autoplay muted loop playsinline poster="./image/logo.png">
+    <source src="./video/hero-bg.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay"></div>
   <div class="wrap hero-grid hero-inner">
     <div>
       <div class="eyebrow hero-anim a1"><span class="dot"></span> Handpicked · Farm-fresh · Pan-India delivery</div>
