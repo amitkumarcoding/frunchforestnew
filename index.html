@@ -77,6 +77,91 @@
   }
   @media (max-width:640px){ .wrap{padding:0 20px;} }
 
+  /* ---------- premium custom cursor ---------- */
+  html.has-fine-cursor, html.has-fine-cursor body{ cursor:none; }
+  html.has-fine-cursor a, html.has-fine-cursor button,
+  html.has-fine-cursor .card-details-btn, html.has-fine-cursor .nutrient-toggle,
+  html.has-fine-cursor input, html.has-fine-cursor textarea, html.has-fine-cursor select,
+  html.has-fine-cursor [role="button"]{ cursor:none; }
+
+  .cursor-dot, .cursor-ring{
+    position:fixed; top:0; left:0;
+    pointer-events:none;
+    z-index:2200;
+    will-change:transform;
+    transform:translate(-50%,-50%);
+  }
+  .cursor-dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--gold-1);
+    box-shadow:0 0 10px 1px rgba(241,212,138,0.55);
+    opacity:0;
+    transition:opacity .25s ease, width .25s cubic-bezier(.2,.8,.2,1), height .25s cubic-bezier(.2,.8,.2,1), background .25s ease;
+  }
+  .cursor-ring{
+    width:38px; height:38px; border-radius:50%;
+    border:1.5px solid var(--gold-1);
+    background:rgba(241,212,138,0.06);
+    mix-blend-mode:difference;
+    opacity:0;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+    transition:opacity .3s ease, width .35s cubic-bezier(.2,.8,.2,1), height .35s cubic-bezier(.2,.8,.2,1),
+               background .35s ease, border-color .35s ease;
+  }
+  .cursor-ring::after{
+    content:"";
+    position:absolute; inset:-1px;
+    border-radius:50%;
+    border:1px solid rgba(241,212,138,0.4);
+    transform:scale(1);
+    opacity:0;
+    transition:transform .5s ease, opacity .5s ease;
+  }
+  html.cursor-ready .cursor-dot,
+  html.cursor-ready .cursor-ring{ opacity:1; }
+
+  .cursor-ring .cursor-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.6rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--gold-1);
+    opacity:0;
+    transform:scale(.6);
+    transition:opacity .25s ease, transform .25s ease;
+    white-space:nowrap;
+  }
+
+  /* hovering a clickable element: ring grows, dot hides */
+  html.cursor-hover .cursor-dot{ opacity:0; }
+  html.cursor-hover .cursor-ring{
+    width:56px; height:56px;
+    background:rgba(241,212,138,0.12);
+    border-color:var(--gold-1);
+  }
+
+  /* hovering a product card: ring becomes a solid "view" pill */
+  html.cursor-view .cursor-dot{ opacity:0; }
+  html.cursor-view .cursor-ring{
+    width:74px; height:74px;
+    background:var(--forest-dark);
+    border-color:var(--forest-dark);
+    mix-blend-mode:normal;
+  }
+  html.cursor-view .cursor-ring .cursor-label{ opacity:1; transform:scale(1); }
+
+  /* click feedback: quick ripple pulse */
+  html.cursor-click .cursor-ring::after{
+    transform:scale(1.6); opacity:1;
+  }
+
+  @media (hover:none), (pointer:coarse), (prefers-reduced-motion: reduce){
+    .cursor-dot, .cursor-ring{ display:none; }
+    html.has-fine-cursor, html.has-fine-cursor body,
+    html.has-fine-cursor a, html.has-fine-cursor button{ cursor:auto; }
+  }
+
   /* ---------- floating whatsapp button ---------- */
   .whatsapp-float{
     position:fixed;
@@ -1436,6 +1521,9 @@
 </head>
 <body>
 
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"><span class="cursor-label">View</span></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
 <div id="preloader">
   <div class="preloader-inner">
     <div class="preloader-ring-wrap">
@@ -2389,6 +2477,66 @@
   }
   document.addEventListener('scroll', onScroll, { passive:true });
   onScroll();
+
+  // premium custom cursor: gold dot + lagging ring, with hover/view/click states
+  (function(){
+    const canHover = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+    if(reduceMotion || !canHover) return;
+
+    const html = document.documentElement;
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    if(!dot || !ring) return;
+
+    html.classList.add('has-fine-cursor');
+
+    let dotX = window.innerWidth/2, dotY = window.innerHeight/2;
+    let ringX = dotX, ringY = dotY;
+    let targetX = dotX, targetY = dotY;
+    let started = false;
+
+    function onMove(e){
+      targetX = e.clientX; targetY = e.clientY;
+      if(!started){ dotX = ringX = targetX; dotY = ringY = targetY; started = true; html.classList.add('cursor-ready'); }
+    }
+    document.addEventListener('mousemove', onMove, { passive:true });
+
+    function tick(){
+      dotX = targetX; dotY = targetY;
+      dot.style.transform = `translate(${dotX}px, ${dotY}px) translate(-50%,-50%)`;
+      ringX += (targetX - ringX) * 0.16;
+      ringY += (targetY - ringY) * 0.16;
+      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%,-50%)`;
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    document.addEventListener('mouseleave', ()=> html.classList.remove('cursor-ready'));
+    document.addEventListener('mouseenter', ()=> { if(started) html.classList.add('cursor-ready'); });
+
+    document.addEventListener('mousedown', ()=>{
+      html.classList.add('cursor-click');
+      setTimeout(()=> html.classList.remove('cursor-click'), 380);
+    });
+
+    const hoverSelector = 'a, button, [role="button"], input, textarea, select, .nutrient-toggle, .faq-question, .gifting-tag';
+    const viewSelector = '.product-card';
+
+    document.addEventListener('mouseover', (e)=>{
+      const viewEl = e.target.closest(viewSelector);
+      const hoverEl = e.target.closest(hoverSelector);
+      if(viewEl){ html.classList.add('cursor-view'); html.classList.remove('cursor-hover'); }
+      else if(hoverEl){ html.classList.add('cursor-hover'); html.classList.remove('cursor-view'); }
+    });
+    document.addEventListener('mouseout', (e)=>{
+      const viewEl = e.target.closest(viewSelector);
+      const hoverEl = e.target.closest(hoverSelector);
+      const toViewEl = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest(viewSelector) : null;
+      const toHoverEl = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest(hoverSelector) : null;
+      if(viewEl && !toViewEl) html.classList.remove('cursor-view');
+      if(hoverEl && !toHoverEl) html.classList.remove('cursor-hover');
+    });
+  })();
 
   // cursor spotlight in hero
   const heroSection = document.getElementById('heroSection');
