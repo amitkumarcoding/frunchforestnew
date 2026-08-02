@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Details — Frunch Forest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest-dark:#132A1E;
+    --forest-mid:#3E7C4A;
+    --forest-light:#8FBF6E;
+    --parchment:#F3ECE0;
+    --parchment-deep:#E9DFCC;
+    --walnut:#5B3A24;
+    --amber:#C9973B;
+    --gold-1:#F1D48A;
+    --gold-2:#C9973B;
+    --gold-3:#8B6420;
+    --ink:#221E17;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--forest-dark);
+    color:var(--parchment);
+    font-family:'Manrope', sans-serif;
+    line-height:1.6;
+    min-height:100vh;
+  }
+  h1,h2,h3{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    line-height:0.95;
+  }
+  .accent-serif{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    text-transform:none;
+    letter-spacing:0;
+  }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+  @media (max-width:640px){ .wrap{ padding:0 20px; } }
+
+  header{
+    padding:22px 0;
+    border-bottom:1px solid rgba(243,236,224,0.12);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    max-width:1100px; margin:0 auto; padding:0 32px;
+  }
+  @media (max-width:640px){ .nav{ padding:0 20px; } }
+  .nav-brand{ display:flex; align-items:center; gap:10px; }
+  .nav-brand img{ width:34px; height:34px; object-fit:contain; }
+  .nav-brand span{
+    font-family:'Anton', sans-serif;
+    font-size:1rem; letter-spacing:0.03em; text-transform:uppercase;
+  }
+  .back-link{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:0.85rem; font-weight:600; text-decoration:none;
+    color:rgba(243,236,224,0.75);
+    transition:color .2s ease;
+  }
+  .back-link:hover{ color:var(--gold-1); }
+  .back-link svg{ width:16px; height:16px; }
+
+  main{ padding:56px 0 90px; }
+
+  .detail-grid{
+    display:grid;
+    grid-template-columns:0.95fr 1.05fr;
+    gap:56px;
+    align-items:flex-start;
+  }
+  @media (max-width:860px){ .detail-grid{ grid-template-columns:1fr; gap:34px; } }
+
+  .photo-frame{
+    position:relative;
+    border-radius:22px;
+    overflow:hidden;
+    border:1px solid rgba(243,236,224,0.14);
+    background:rgba(243,236,224,0.04);
+    aspect-ratio:4/3;
+  }
+  .photo-frame img{
+    width:100%; height:100%; object-fit:cover;
+  }
+  .photo-frame::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(0deg, rgba(19,42,30,0.55) 0%, rgba(19,42,30,0) 45%);
+  }
+
+  .best-badge{
+    position:absolute; top:16px; left:16px; z-index:2;
+    display:flex; align-items:center; gap:6px;
+    background:linear-gradient(120deg, var(--gold-3), var(--gold-1) 55%, var(--gold-2));
+    color:var(--forest-dark);
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;
+    padding:6px 12px; border-radius:100px;
+  }
+
+  .eyebrow{
+    display:inline-block;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--forest-light);
+    border:1px solid rgba(143,191,110,0.4);
+    background:rgba(143,191,110,0.08);
+    padding:6px 14px; border-radius:100px;
+    margin-bottom:18px;
+  }
+
+  h1.product-name{ font-size:clamp(2.4rem, 5vw, 3.6rem); color:var(--parchment); }
+  .hindi-name{
+    display:block; font-size:1.15rem; color:var(--forest-light); margin:6px 0 22px;
+  }
+
+  .lede{
+    font-size:1.02rem; color:rgba(243,236,224,0.78); max-width:52ch; margin-bottom:28px;
+  }
+
+  .feature-list{ list-style:none; margin-bottom:30px; }
+  .feature-list li{
+    font-size:0.98rem; color:rgba(243,236,224,0.85);
+    padding-left:22px; position:relative; margin-bottom:12px;
+  }
+  .feature-list li::before{
+    content:"";
+    position:absolute; left:0; top:9px;
+    width:8px; height:8px; border-radius:50%;
+    background:var(--forest-light);
+  }
+
+  .section-label{
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem;
+    letter-spacing:0.1em; text-transform:uppercase; color:rgba(243,236,224,0.55);
+    margin-bottom:12px;
+  }
+
+  .pack-sizes{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:34px; }
+  .pack-sizes span{
+    font-family:'JetBrains Mono', monospace; font-size:0.85rem;
+    border:1px solid rgba(243,236,224,0.25); color:var(--parchment);
+    padding:8px 16px; border-radius:100px;
+  }
+
+  .cta-row{ display:flex; gap:16px; flex-wrap:wrap; }
+  .btn-primary{
+    display:inline-block;
+    background:var(--gold-2); color:var(--forest-dark);
+    padding:14px 28px; border-radius:100px;
+    font-weight:700; font-size:0.95rem;
+    text-decoration:none;
+    transition:transform .2s ease, background .2s ease;
+  }
+  .btn-primary:hover{ background:var(--gold-1); transform:translateY(-2px); }
+  .btn-secondary{
+    display:inline-block;
+    border:1px solid rgba(243,236,224,0.3);
+    color:var(--parchment);
+    padding:14px 28px; border-radius:100px;
+    font-weight:700; font-size:0.95rem;
+    text-decoration:none;
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .btn-secondary:hover{ border-color:var(--gold-1); background:rgba(243,236,224,0.06); }
+
+  .promise-strip{
+    margin-top:44px;
+    padding-top:28px;
+    border-top:1px solid rgba(243,236,224,0.12);
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;
+  }
+  @media (max-width:640px){ .promise-strip{ grid-template-columns:1fr; } }
+  .promise-strip div{ font-size:0.85rem; color:rgba(243,236,224,0.7); }
+  .promise-strip b{
+    display:block; color:var(--parchment); font-size:0.95rem; margin-bottom:4px;
+  }
+
+  .empty-state{
+    text-align:center; padding:80px 0; color:rgba(243,236,224,0.7);
+  }
+  .empty-state a{ color:var(--gold-1); text-decoration:underline; }
+
+  footer{
+    border-top:1px solid rgba(243,236,224,0.12);
+    padding:26px 0;
+  }
+  footer .wrap{
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:0.8rem; color:rgba(243,236,224,0.55);
+  }
+  @media (max-width:640px){ footer .wrap{ flex-direction:column; gap:8px; text-align:center; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="nav-brand">
+      <img src="./image/logo.png" alt="">
+      <span>Frunch Forest</span>
+    </div>
+    <a class="back-link" href="index.html#products">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      Back to the range
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap" id="detailWrap">
+    <!-- populated by JS -->
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Frunch Forest. All rights reserved.</span>
+    <span>No preservatives. No additives. Quality guaranteed.</span>
+  </div>
+</footer>
+
+<script>
+  function esc(str){
+    const d = document.createElement('div');
+    d.textContent = str || '';
+    return d.innerHTML;
+  }
+
+  function render(product){
+    const wrap = document.getElementById('detailWrap');
+
+    if(!product){
+      wrap.innerHTML = `
+        <div class="empty-state">
+          <h2 style="font-size:1.6rem; margin-bottom:14px;">We couldn't find that product</h2>
+          <p>Head back to <a href="index.html#products">the range</a> and pick one to see its details.</p>
+        </div>`;
+      return;
+    }
+
+    const bullets = (product.bullets || []).map(b => `<li>${esc(b)}</li>`).join('');
+    const packs = (product.packs || []).map(p => `<span>${esc(p)}</span>`).join('');
+    const badge = product.bestSeller ? `<div class="best-badge">★ Best seller</div>` : '';
+
+    wrap.innerHTML = `
+      <div class="detail-grid">
+        <div class="photo-frame">
+          ${badge}
+          <img src="${product.image || ''}" alt="${esc(product.name)}">
+        </div>
+        <div>
+          <span class="eyebrow">${esc(product.tag || 'Frunch Forest staple')}</span>
+          <h1 class="product-name">${esc(product.name)}</h1>
+          <span class="hindi-name accent-serif">${esc(product.hindi)}</span>
+          <p class="lede">Farm-fresh ${esc((product.name||'').toLowerCase())}, hand-sorted and sealed with nothing added and nothing hidden — just the product, as nature made it.</p>
+
+          <div class="section-label">Why you'll love it</div>
+          <ul class="feature-list">
+            ${bullets}
+          </ul>
+
+          <div class="section-label">Available pack sizes</div>
+          <div class="pack-sizes">${packs}</div>
+
+          <div class="cta-row">
+            <a class="btn-primary" href="mailto:frunchforest@gmail.com?subject=Order enquiry: ${encodeURIComponent(product.name)}">Enquire to order →</a>
+            <a class="btn-secondary" href="index.html#products">View full range</a>
+          </div>
+
+          <div class="promise-strip">
+            <div><b>No preservatives</b>Nothing artificial goes in.</div>
+            <div><b>No additives</b>Just the product, as nature made it.</div>
+            <div><b>Quality guaranteed</b>Every batch checked before it ships.</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  (function init(){
+    let product = null;
+    try{
+      const raw = sessionStorage.getItem('selectedProduct');
+      if(raw) product = JSON.parse(raw);
+    }catch(e){}
+
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('slug');
+    if(product && slug && product.slug !== slug){
+      // stale data from a different card click; ignore
+      product = null;
+    }
+
+    render(product);
+    document.title = product ? `${product.name} — Frunch Forest` : 'Product Details — Frunch Forest';
+  })();
+</script>
+</body>
+</html>
