@@ -54,19 +54,31 @@
   @media (max-width:640px){ .wrap{ padding:0 20px; } }
 
   header{
-    padding:22px 0;
-    border-bottom:1px solid rgba(243,236,224,0.12);
+    position:sticky; top:0; z-index:50;
+    background:rgba(243,236,224,0.62);
+    backdrop-filter:blur(18px) saturate(160%);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    border-bottom:1px solid rgba(255,255,255,0.35);
+    box-shadow:0 1px 0 rgba(255,255,255,0.5) inset, 0 8px 32px -20px rgba(19,42,30,0.25);
+    transition:box-shadow .35s ease, background .35s ease;
+  }
+  header.scrolled{
+    background:rgba(243,236,224,0.78);
+    box-shadow:0 1px 0 rgba(255,255,255,0.5) inset, 0 10px 30px -14px rgba(19,42,30,0.35);
   }
   .nav{
     display:flex; align-items:center; justify-content:space-between;
-    max-width:1100px; margin:0 auto; padding:0 32px;
+    max-width:1100px; margin:0 auto; padding:16px 32px;
+    transition:padding .35s ease;
   }
-  @media (max-width:640px){ .nav{ padding:0 20px; } }
+  header.scrolled .nav{ padding:11px 32px; }
+  @media (max-width:640px){ .nav{ padding:16px 20px; } }
   .nav-brand{ display:flex; align-items:center; gap:10px; }
   .nav-brand img{ width:34px; height:34px; object-fit:contain; }
   .nav-brand span{
     font-family:'Anton', sans-serif;
     font-size:1rem; letter-spacing:0.03em; text-transform:uppercase;
+    color:var(--forest-dark);
   }
   .back-link{
     display:inline-flex; align-items:center; gap:8px;
@@ -239,7 +251,7 @@
 </head>
 <body>
 
-<header>
+<header id="siteHeader">
   <div class="nav">
     <div class="nav-brand">
       <img style="width: 70px; height: 70px;" src="./image/logo.png" alt="Frunch Forest logo">
@@ -326,6 +338,15 @@
           </div>
         </div>
       </div>`;
+  }
+
+  const header = document.getElementById('siteHeader');
+  if(header){
+    function onScroll(){
+      header.classList.toggle('scrolled', window.scrollY > 20);
+    }
+    document.addEventListener('scroll', onScroll, { passive:true });
+    onScroll();
   }
 
   (function init(){
