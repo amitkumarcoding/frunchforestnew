@@ -753,54 +753,98 @@
 
   /* ---------- contact / footer ---------- */
   footer{
+    position:relative;
     background:var(--forest-dark); color:var(--parchment);
-    padding:80px 0 40px;
+    padding:88px 0 0;
+    overflow:hidden;
   }
-  .footer-top{
-    display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px;
-    padding-bottom:56px; border-bottom:1px solid rgba(243,236,224,0.12);
+  footer::before{
+    content:"";
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 700px 420px at 12% 0%, rgba(201,151,59,0.10), transparent 60%),
+      radial-gradient(ellipse 600px 500px at 100% 100%, rgba(143,191,110,0.08), transparent 60%);
   }
-  @media (max-width:860px){ .footer-top{ grid-template-columns:1fr; gap:40px; } }
-  .footer-brand{ display:flex; align-items:center; gap:14px; margin-bottom:22px; }
-  .footer-brand img{ width:56px; height:56px; object-fit:contain; }
+  footer .wrap{ position:relative; z-index:1; }
+  .footer-grid{
+    display:grid; grid-template-columns:1.3fr 0.8fr 0.8fr 1fr; gap:40px;
+    padding-bottom:52px; border-bottom:1px solid rgba(243,236,224,0.12);
+  }
+  @media (max-width:900px){ .footer-grid{ grid-template-columns:1fr 1fr; gap:36px 32px; } }
+  @media (max-width:560px){ .footer-grid{ grid-template-columns:1fr; gap:36px; } }
+  .footer-brand{ display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+  .footer-brand img{ width:52px; height:52px; object-fit:contain; }
   .footer-brand div span{ display:block; }
-  .footer-brand .name{ font-family:'Anton', sans-serif; font-size:1.4rem; letter-spacing:0.02em; }
-  .footer-brand .tag{ font-family:'Fraunces', serif; font-style:italic; font-size:0.95rem; color:var(--forest-light); }
-  footer h2{ color:var(--parchment); font-size:clamp(2rem,4vw,2.8rem); margin-bottom:18px; }
-  footer .lede-foot{ color:rgba(243,236,224,0.7); max-width:420px; margin-bottom:28px; font-size:1rem; }
-  .contact-list{ list-style:none; }
-  .contact-list li{
-    display:flex; align-items:center; gap:14px;
-    padding:14px 0; border-bottom:1px solid rgba(243,236,224,0.1);
-    font-size:0.98rem;
+  .footer-brand .name{ font-family:'Anton', sans-serif; font-size:1.3rem; letter-spacing:0.02em; }
+  .footer-brand .tag{ font-family:'Fraunces', serif; font-style:italic; font-size:0.92rem; color:var(--forest-light); }
+  .footer-about p{ color:rgba(243,236,224,0.65); font-size:0.94rem; max-width:320px; margin-bottom:22px; }
+  .footer-col h4{
+    font-family:'JetBrains Mono', monospace; font-size:0.7rem; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--gold-1); margin-bottom:20px; font-weight:600;
   }
-  .contact-list li:first-child{ padding-top:0; }
-  .contact-list a{ text-decoration:none; color:var(--parchment); font-weight:600; }
-  .contact-list a:hover{ color:var(--amber); }
-  .contact-list .k{
-    font-family:'JetBrains Mono', monospace; font-size:0.68rem; letter-spacing:0.08em;
-    color:var(--forest-light); text-transform:uppercase; width:110px; flex-shrink:0;
+  .footer-links{ list-style:none; display:flex; flex-direction:column; gap:13px; }
+  .footer-links a{
+    color:rgba(243,236,224,0.72); text-decoration:none; font-size:0.94rem;
+    transition:color .2s ease, padding-left .2s ease; display:inline-block;
   }
+  .footer-links a:hover{ color:var(--parchment); padding-left:4px; }
+  .footer-contact-list{ list-style:none; display:flex; flex-direction:column; gap:16px; margin-bottom:22px; }
+  .footer-contact-list li{ display:flex; flex-direction:column; gap:3px; }
+  .footer-contact-list .k{
+    font-family:'JetBrains Mono', monospace; font-size:0.66rem; letter-spacing:0.08em;
+    color:var(--forest-light); text-transform:uppercase;
+  }
+  .footer-contact-list a{ text-decoration:none; color:var(--parchment); font-weight:600; font-size:0.95rem; }
+  .footer-contact-list a:hover{ color:var(--amber); }
+  .footer-contact-list span.addr{ color:rgba(243,236,224,0.75); font-size:0.9rem; line-height:1.5; }
+  .footer-badges{
+    display:flex; gap:12px; flex-wrap:wrap;
+    padding:32px 0; border-bottom:1px solid rgba(243,236,224,0.12);
+  }
+  .footer-badges span{
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(243,236,224,0.06);
+    border:1px solid rgba(243,236,224,0.18);
+    padding:8px 14px; border-radius:10px;
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem;
+    color:rgba(243,236,224,0.8);
+    transition:border-color .3s ease, background .3s ease;
+  }
+  .footer-badges span:hover{ border-color:rgba(201,151,59,0.6); background:rgba(201,151,59,0.12); }
+  .footer-badges span svg{ width:15px; height:15px; flex-shrink:0; color:var(--gold-1); }
   .footer-bottom{
     display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
-    padding-top:32px; font-size:0.82rem; color:rgba(243,236,224,0.55);
+    padding:26px 0 32px; font-size:0.82rem; color:rgba(243,236,224,0.5);
   }
-  .footer-bottom .btn-primary{ background:var(--amber); color:var(--forest-dark); }
-  .footer-bottom .btn-primary:hover{ background:var(--forest-light); }
+  .back-to-top{
+    display:inline-flex; align-items:center; gap:8px;
+    color:rgba(243,236,224,0.7); text-decoration:none; font-size:0.82rem; font-weight:600;
+    transition:color .2s ease;
+  }
+  .back-to-top:hover{ color:var(--gold-1); }
+  .back-to-top svg{ width:15px; height:15px; transition:transform .25s ease; }
+  .back-to-top:hover svg{ transform:translateY(-3px); }
 
   /* ---------- social links ---------- */
   .social-links{
-    display:flex; gap:12px; margin-top:22px;
+    display:flex; gap:12px;
   }
   .social-links a{
+    position:relative;
     display:flex; align-items:center; justify-content:center;
     width:40px; height:40px; border-radius:50%;
     background:rgba(243,236,224,0.08);
     border:1px solid rgba(243,236,224,0.18);
-    color:var(--parchment);
-    transition:background .25s ease, border-color .25s ease, transform .25s ease, color .25s ease;
+    transition:background .25s ease, border-color .25s ease, transform .25s ease;
   }
-  .social-links a svg{ width:18px; height:18px; }
+  .social-links a img{
+    width:18px; height:18px;
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    transition:opacity .25s ease;
+  }
+  .social-links a img.icon-hover{ opacity:0; }
+  .social-links a:hover img.icon-default{ opacity:0; }
+  .social-links a:hover img.icon-hover{ opacity:1; }
   .social-links a:hover{
     background:var(--amber);
     border-color:var(--amber);
@@ -810,13 +854,29 @@
 
   /* ---------- scroll reveal ---------- */
   .reveal{
-    opacity:0; transform:translateY(22px);
-    transition:opacity .7s ease, transform .7s ease;
+    opacity:0; transform:translateY(26px) scale(0.97);
+    filter:blur(6px);
+    transition:opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1), filter .8s ease;
+    will-change:opacity, transform, filter;
   }
-  .reveal.in{ opacity:1; transform:none; }
+  .reveal.in{ opacity:1; transform:none; filter:blur(0); }
   @media (prefers-reduced-motion: reduce){
-    .reveal{ opacity:1; transform:none; transition:none; }
+    .reveal{ opacity:1; transform:none; filter:none; transition:none; }
     .hero-badge .badge-mark::before{ animation:none; }
+  }
+
+  /* ---------- section-to-section scroll transitions ---------- */
+  section{ position:relative; }
+  .sec-line{
+    position:absolute; top:0; left:50%; transform:translateX(-50%);
+    height:2px; width:0; max-width:0;
+    background:linear-gradient(90deg, transparent, var(--gold-2) 25%, var(--forest-mid) 50%, var(--gold-2) 75%, transparent);
+    transition:width 1.2s cubic-bezier(.16,1,.3,1), max-width 1.2s cubic-bezier(.16,1,.3,1);
+    z-index:2; pointer-events:none;
+  }
+  section.sec-in .sec-line, footer.sec-in .sec-line{ width:70%; max-width:560px; }
+  @media (prefers-reduced-motion: reduce){
+    .sec-line{ transition:none; width:70%; max-width:560px; }
   }
   :focus-visible{ outline:2px solid var(--amber); outline-offset:3px; }
 
@@ -1028,6 +1088,7 @@
 </header>
 
 <section class="page-hero">
+  <span class="sec-line"></span>
   <div class="wrap">
     <div class="eyebrow"><span class="dot"></span> 500+ happy families</div>
     <h1>Every review, <em class="accent-serif">unfiltered</em></h1>
@@ -1036,6 +1097,7 @@
 </section>
 
 <section id="allTestimonials">
+  <span class="sec-line"></span>
   <div class="wrap">
     <a class="back-link" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"></path><path d="m12 19-7-7 7-7"></path></svg> Back to home</a>
     <div class="testimonial-grid">
@@ -1121,47 +1183,97 @@
 </section>
 
 <footer id="contact">
+  <span class="sec-line"></span>
   <div class="wrap">
-    <div class="footer-top">
-      <div>
+    <div class="footer-grid">
+      <div class="footer-col footer-about">
         <div class="footer-brand">
-         <img style="width: 100px; height: 100px;" src="./image/logo.png" alt="">
+         <img src="./image/logo.png" alt="">
           <div>
             <span class="name">Frunch Forest</span>
             <span class="tag">crunch in every bite</span>
           </div>
         </div>
-        <h2>Let's get<br>in touch</h2>
-        <p class="lede-foot">For orders, bulk enquiries or partnerships — reach out and our team will get back to you.</p>
+        <p>Handpicked, farm-fresh dry fruits — no preservatives, no shortcuts. Packed with care and shipped across India for families and businesses alike.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/frunchforest" target="_blank" rel="noopener" aria-label="Instagram">
+            <img class="icon-default" src="https://cdn.simpleicons.org/instagram/F3ECE0" alt="">
+            <img class="icon-hover" src="https://cdn.simpleicons.org/instagram/132A1E" alt="">
+          </a>
+          <a href="https://www.facebook.com/share/18dqsVznoS/" target="_blank" rel="noopener" aria-label="Facebook">
+            <img class="icon-default" src="https://cdn.simpleicons.org/facebook/F3ECE0" alt="">
+            <img class="icon-hover" src="https://cdn.simpleicons.org/facebook/132A1E" alt="">
+          </a>
+          <a href="https://www.threads.com/@frunchforest" target="_blank" rel="noopener" aria-label="Threads">
+            <img class="icon-default" src="https://cdn.simpleicons.org/threads/F3ECE0" alt="">
+            <img class="icon-hover" src="https://cdn.simpleicons.org/threads/132A1E" alt="">
+          </a>
+          <a href="https://youtube.com/@frunchforest" target="_blank" rel="noopener" aria-label="YouTube">
+            <img class="icon-default" src="https://cdn.simpleicons.org/youtube/F3ECE0" alt="">
+            <img class="icon-hover" src="https://cdn.simpleicons.org/youtube/132A1E" alt="">
+          </a>
+          <a href="https://x.com/frunchforest" target="_blank" rel="noopener" aria-label="X (Twitter)">
+            <img class="icon-default" src="https://cdn.simpleicons.org/x/F3ECE0" alt="">
+            <img class="icon-hover" src="https://cdn.simpleicons.org/x/132A1E" alt="">
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#why">Why Us</a></li>
+          <li><a href="index.html#products">Products</a></li>
+          <li><a href="index.html#packaging">Packaging</a></li>
+          <li><a href="testimonials.html">Reviews</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Our Products</h4>
+        <ul class="footer-links">
+          <li><a href="index.html#products">Almonds</a></li>
+          <li><a href="index.html#products">Cashews</a></li>
+          <li><a href="index.html#products">Walnuts</a></li>
+          <li><a href="index.html#products">Raisins</a></li>
+          <li><a href="index.html#products">Fox Nuts (Makhaana)</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Get In Touch</h4>
+        <ul class="footer-contact-list">
+          <li>
+            <span class="k mono">Phone</span>
+            <a href="tel:+919582122419">+91 95821 22419</a>
+          </li>
+          <li>
+            <span class="k mono">Email</span>
+            <a href="mailto:frunchforest@gmail.com">frunchforest@gmail.com</a>
+          </li>
+          <li>
+            <span class="k mono">Website</span>
+            <a href="https://frunchforest.in/" target="_blank" rel="noopener">frunchforest.in</a>
+          </li>
+          <li>
+            <span class="k mono">Address</span>
+            <span class="addr">A-15, Ramesh Enclave, Kirari Suleman Nagar, New Delhi – 110086, India</span>
+          </li>
+        </ul>
         <a class="btn-primary" href="mailto:frunchforest@gmail.com">Email us →</a>
       </div>
-      <ul class="contact-list">
-        <li><span class="k mono">Phone</span><a href="tel:+919582122419">+91 95821 22419</a></li>
-        <li><span class="k mono">Email</span><a href="mailto:frunchforest@gmail.com">frunchforest@gmail.com</a></li>
-        <li><span class="k mono">Website</span><a href="https://frunchforest.in/" target="_blank" rel="noopener">frunchforest.in</a></li>
-        <li><span class="k mono">Address</span><span>A-15, Ramesh Enclave, Kirari Suleman Nagar, New Delhi – 110086, India</span></li>
-      </ul>
-      <div class="social-links">
-        <a href="https://www.instagram.com/frunchforest" target="_blank" rel="noopener" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-        </a>
-        <a href="https://www.facebook.com/share/18dqsVznoS/" target="_blank" rel="noopener" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-        </a>
-        <a href="https://www.threads.com/@frunchforest" target="_blank" rel="noopener" aria-label="Threads">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"></path><path d="M15.5 8.5c-1-1-2-1.3-3.2-1.1-1.8.3-3 1.8-2.7 3.6.2 1.2 1 2 2.2 2.3 1.6.4 3.2-.2 3.9-1.7.6-1.3.4-3-.6-4.3"></path></svg>
-        </a>
-        <a href="https://youtube.com/@frunchforest" target="_blank" rel="noopener" aria-label="YouTube">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
-        </a>
-        <a href="https://x.com/frunchforest" target="_blank" rel="noopener" aria-label="X (Twitter)">
-          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
-        </a>
-      </div>
+    </div>
+    <div class="footer-badges reveal">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path><path d="m9 12 2 2 4-4"></path></svg>FSSAI Licensed</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="m9 15 2 2 4-4"></path></svg>GST Registered</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 11 13.5 12 12"></path></svg>No Preservatives</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"></path><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>Hygienically Packed</span>
     </div>
     <div class="footer-bottom">
       <span>© 2026 Frunch Forest. All rights reserved.</span>
-      <span>Follow us for updates, offers &amp; healthy tips.</span>
+      <a class="back-to-top" href="#">
+        Back to top
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"></path><path d="m5 12 7-7 7 7"></path></svg>
+      </a>
     </div>
   </div>
 </footer>
@@ -1187,12 +1299,29 @@
     setTimeout(hidePreloader, 2500);
   })();
 
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const revealGroups = new Map();
+  document.querySelectorAll('.reveal').forEach(el=>{
+    const parent = el.parentElement;
+    if(!revealGroups.has(parent)) revealGroups.set(parent, 0);
+    const idx = revealGroups.get(parent);
+    if(!reduceMotion){ el.style.transitionDelay = Math.min(idx * 90, 450) + 'ms'; }
+    revealGroups.set(parent, idx + 1);
+  });
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
       if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
     });
   }, { threshold:0.12 });
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  const sectionIO = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('sec-in'); sectionIO.unobserve(e.target); }
+    });
+  }, { threshold:0.18 });
+  document.querySelectorAll('section, footer').forEach(sec=>sectionIO.observe(sec));
 
   const header = document.getElementById('siteHeader');
   const progressBar = document.getElementById('progressBar');
