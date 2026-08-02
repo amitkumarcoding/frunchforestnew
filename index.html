@@ -506,7 +506,7 @@
   .gifting-btn{ display:inline-flex; align-items:center; gap:8px; }
   /* right-side preview that swaps with the hovered/tapped tag */
   .gifting-visual{
-    position:relative; aspect-ratio:4/5; border-radius:22px; overflow:hidden;
+    position:relative; aspect-ratio:6/5; border-radius:22px; overflow:hidden;
     box-shadow:0 26px 54px -22px rgba(0,0,0,0.5); border:1px solid rgba(243,236,224,0.14);
   }
   .gifting-visual-item{
@@ -705,7 +705,7 @@
     transition:transform .35s ease, background .35s ease, border-color .35s ease, box-shadow .35s ease;
     transform-style:preserve-3d;
     will-change:transform;
-    cursor:pointer;
+    cursor:default;
   }
   .product-card:hover{
     background:rgba(243,236,224,0.09);
@@ -734,6 +734,15 @@
     background:linear-gradient(0deg, rgba(19,42,30,0.9) 0%, rgba(19,42,30,0) 55%);
   }
   .product-card .card-body{ padding:22px 26px 26px; }
+  .card-details-btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    margin-top:16px; width:100%;
+    background:var(--forest-dark); color:var(--parchment);
+    padding:11px 18px; border-radius:100px; font-size:0.85rem; font-weight:700;
+    text-decoration:none; letter-spacing:0.02em; cursor:pointer;
+    transition:transform .2s ease, background .2s ease;
+  }
+  .card-details-btn:hover{ transform:translateY(-2px); background:var(--forest-mid); }
   .product-card .tag{
     font-family:'JetBrains Mono', monospace; font-size:0.68rem; letter-spacing:0.08em;
     color:var(--amber); text-transform:uppercase; font-weight:700; margin-bottom:14px; display:inline-block;
@@ -967,6 +976,25 @@
     transition:border-color .3s ease, background .3s ease;
   }
   .certs-badges span:hover{ border-color:rgba(201,151,59,0.6); background:rgba(201,151,59,0.12); }
+  .certs-numbers{
+    margin-top:24px;
+    padding-top:22px;
+    border-top:1px solid rgba(243,236,224,0.16);
+  }
+  .certs-numbers .certs-numbers-title{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--gold-1); margin-bottom:12px;
+  }
+  .certs-numbers dl{ display:grid; gap:8px; margin:0; }
+  .certs-numbers .row{ display:flex; gap:8px; align-items:baseline; flex-wrap:wrap; margin:0; }
+  .certs-numbers dt{
+    font-size:0.82rem; color:rgba(243,236,224,0.65); min-width:120px; margin:0;
+  }
+  .certs-numbers dd{
+    font-family:'JetBrains Mono', monospace; font-size:0.82rem;
+    color:var(--parchment); letter-spacing:0.02em; margin:0;
+  }
 
   /* ---------- testimonials ---------- */
   #testimonials{ background:var(--parchment); }
@@ -1601,7 +1629,7 @@
       </div>
       <div class="gifting-visual" id="giftingVisual">
         <div class="gifting-visual-item active" data-item="diwali" style="--gv-a:#C9973B;--gv-b:#8B6420;">
-          <img src="./image/gifting-diwali.jpg" alt="Diwali dry-fruit gifting hampers" loading="lazy">
+          <img src="./diwali2.jpg" alt="Diwali dry-fruit gifting hampers" loading="lazy">
           <span class="gv-fallback">🎁</span>
           <span class="gv-label">Diwali Hampers</span>
         </div>
@@ -1710,6 +1738,9 @@
           <li>Storage: Cool, dry place</li>
         </ul>
         <div class="pack-sizes"><span>200g</span><span>250g</span><span>500g</span><span>1kg</span></div>
+        <a class="card-details-btn" href="details.html?slug=almonds" onclick="event.stopPropagation();">View Details
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
 
         </div>
       </div>
@@ -1743,6 +1774,9 @@
           <li>Storage: Cool, dry place</li>
         </ul>
         <div class="pack-sizes"><span>200g</span><span>250g</span><span>500g</span><span>1kg</span></div>
+        <a class="card-details-btn" href="details.html?slug=cashew" onclick="event.stopPropagation();">View Details
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
         </div>
       </div>
       <div class="product-card reveal" data-slug="raisins">
@@ -1775,6 +1809,9 @@
           <li>Storage: Cool, dry place</li>
         </ul>
         <div class="pack-sizes"><span>200g</span><span>250g</span><span>500g</span><span>1kg</span></div>
+        <a class="card-details-btn" href="details.html?slug=raisins" onclick="event.stopPropagation();">View Details
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
         </div>
       </div>
       <div class="product-card reveal" data-slug="walnut">
@@ -1807,6 +1844,9 @@
           <li>Storage: Cool, dry place</li>
         </ul>
         <div class="pack-sizes"><span>200g</span><span>250g</span><span>500g</span><span>1kg</span></div>
+        <a class="card-details-btn" href="details.html?slug=walnut" onclick="event.stopPropagation();">View Details
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
         </div>
       </div>
       <div class="product-card featured reveal" data-slug="foxnuts">
@@ -1841,6 +1881,9 @@
           <li>Storage: Cool, dry place</li>
         </ul>
         <div class="pack-sizes"><span>200g</span><span>250g</span><span>500g</span><span>1kg</span></div>
+        <a class="card-details-btn" href="details.html?slug=foxnuts" onclick="event.stopPropagation();">View Details
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
 
         </div>
       </div>
@@ -1869,6 +1912,9 @@
           <li>Great for gifting</li>
         </ul>
         <div class="pack-sizes"><span>250g</span><span>500g</span><span>1kg</span></div>
+        <a class="card-details-btn" href="details.html?slug=mixednuts" onclick="event.stopPropagation();">View Details
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
         </div>
       </div>
     </div>
@@ -1917,6 +1963,13 @@
         <span>GST Registered</span>
         <span>No Preservatives</span>
         <span>Hygienically Packed</span>
+      </div>
+      <div class="certs-numbers">
+        <div class="certs-numbers-title">Certifications &amp; Compliance</div>
+        <dl>
+          <div class="row"><dt>FSSAI License No.</dt><dd>23325001005101</dd></div>
+          <div class="row"><dt>GSTIN</dt><dd>07IVZPM4999G1Z9</dd></div>
+        </dl>
       </div>
     </div>
   </div>
@@ -2384,9 +2437,12 @@
   // clicking inside an open nutrient panel shouldn't navigate to the details page
   document.querySelectorAll('.nutrient-overlay').forEach(o=> o.addEventListener('click', e=> e.stopPropagation()));
 
-  // product card click -> details page
-  document.querySelectorAll('.product-card').forEach(card=>{
-    card.addEventListener('click', ()=>{
+  // "View Details" button -> details page (only navigation trigger on product cards)
+  document.querySelectorAll('.card-details-btn').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const card = btn.closest('.product-card');
+      if(!card) return;
       const slug = card.getAttribute('data-slug') || '';
       const img = card.querySelector('.card-photo img');
       const name = card.querySelector('h3') ? card.querySelector('h3').textContent : '';
@@ -2399,7 +2455,7 @@
       try{
         sessionStorage.setItem('selectedProduct', JSON.stringify(product));
       }catch(e){}
-      window.location.href = 'details.html?slug=' + encodeURIComponent(slug);
+      // href on the <a> already points to details.html?slug=... — default navigation proceeds
     });
   });
 </script>
