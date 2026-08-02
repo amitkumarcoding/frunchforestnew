@@ -932,6 +932,20 @@
     #preloader{ transition:none; }
     .preloader-ring, .preloader-ring.ring2, .preloader-logo, .preloader-word span{ animation:none; }
   }
+
+  /* ---------- mobile scroll performance ----------
+     backdrop-filter, mix-blend-mode and continuous blurred/animated
+     gradients are expensive to recomposite on mobile GPUs, and are
+     the main cause of scroll jank (most visible re-entering the hero
+     while scrolling up). Strip the costly ones on small screens. */
+  @media (max-width:780px){
+    body::before{ display:none; }
+    header{ backdrop-filter:none; background:var(--parchment); }
+    .hero-visual::before{ animation:none; filter:none; opacity:0.22; }
+    .hero-badge{ animation:none; }
+    .hero-badge .badge-mark::before{ animation:none; }
+    .hero-tag, .hero-tag.two{ animation:none; }
+  }
 </style>
 </head>
 <body>
