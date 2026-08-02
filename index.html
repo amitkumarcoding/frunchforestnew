@@ -537,6 +537,57 @@
   }
   @media (max-width:760px){ .gifting-wrap{ padding:36px 24px; } .gifting-tags{ gap:8px; } }
 
+  /* ---------- bulk & corporate orders ---------- */
+  #bulk{ background:var(--parchment-deep); }
+  .bulk-wrap{
+    background:var(--parchment);
+    border:1px solid var(--paper-line); border-radius:28px; padding:54px 42px;
+    box-shadow:0 18px 40px -26px rgba(19,42,30,0.25);
+  }
+  .bulk-head{ max-width:760px; margin-bottom:8px; }
+  .bulk-head h2{ font-size:clamp(2rem,3.6vw,2.8rem); margin-bottom:16px; }
+  .bulk-head p{ color:rgba(34,30,23,0.72); font-size:1.02rem; margin-bottom:0; }
+  .bulk-perfect{ margin:28px 0 8px; }
+  .bulk-perfect-label{
+    font-family:'JetBrains Mono', monospace; text-transform:uppercase; letter-spacing:0.08em;
+    font-size:0.76rem; color:var(--gold-3); margin-bottom:14px; font-weight:600;
+  }
+  .bulk-tags{ display:flex; flex-wrap:wrap; gap:12px; margin-bottom:32px; }
+  .bulk-tag{
+    display:inline-block; padding:10px 16px; border-radius:999px;
+    background:rgba(62,124,74,0.08); color:var(--forest-dark);
+    border:1px solid rgba(62,124,74,0.22); font-size:0.92rem; font-weight:500;
+  }
+  .bulk-includes{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
+    margin:8px 0 34px; padding-top:28px; border-top:1px dashed var(--paper-line);
+  }
+  .bulk-includes-label{
+    grid-column:1/-1;
+    font-family:'JetBrains Mono', monospace; text-transform:uppercase; letter-spacing:0.08em;
+    font-size:0.76rem; color:var(--gold-3); margin-bottom:6px; font-weight:600;
+  }
+  .bulk-include-item{
+    display:flex; align-items:center; gap:10px;
+    padding:14px 16px; border-radius:14px; background:var(--parchment-deep);
+    border:1px solid var(--paper-line); font-size:0.9rem; color:var(--ink); font-weight:500;
+  }
+  .bulk-include-item::before{ content:"✓"; color:var(--forest-mid); font-weight:700; }
+  .bulk-cta{
+    display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+    padding:26px 30px; border-radius:20px;
+    background:linear-gradient(120deg, rgba(19,42,30,0.96), rgba(63,92,56,0.94));
+  }
+  .bulk-cta-copy strong{ display:block; color:var(--parchment); font-size:1.1rem; margin-bottom:4px; }
+  .bulk-cta-copy span{ color:rgba(243,236,224,0.75); font-size:0.92rem; }
+  @media (max-width:860px){ .bulk-includes{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:760px){
+    .bulk-wrap{ padding:36px 24px; }
+    .bulk-includes{ grid-template-columns:1fr 1fr; }
+    .bulk-cta{ flex-direction:column; align-items:flex-start; }
+  }
+  @media (max-width:480px){ .bulk-includes{ grid-template-columns:1fr; } }
+
   /* ---------- why choose us ---------- */
   .why-grid{
     display:grid; grid-template-columns:repeat(3, 1fr); gap:1px;
@@ -1653,6 +1704,52 @@
           <span class="gv-fallback">🏢</span>
           <span class="gv-label">Employee Appreciation</span>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="bulk">
+  <span class="sec-line"></span>
+  <div class="wrap">
+    <div class="bulk-wrap reveal">
+      <div class="eyebrow"><span class="dot"></span>Bulk &amp; Corporate Orders</div>
+      <div class="bulk-head">
+        <h2>Bulk &amp; Corporate Orders</h2>
+        <p>Stocking a pantry, planning an event, or sourcing for resale? We supply premium dry fruits at scale — consistent quality, reliable timelines, and pricing built for bulk.</p>
+      </div>
+
+      <div class="bulk-perfect">
+        <div class="bulk-perfect-label">Perfect for</div>
+        <div class="bulk-tags">
+          <span class="bulk-tag">🏢 Corporate gifting</span>
+          <span class="bulk-tag">💍 Weddings</span>
+          <span class="bulk-tag">🎉 Festivals</span>
+          <span class="bulk-tag">🎊 Events</span>
+          <span class="bulk-tag">☕ Office pantries</span>
+          <span class="bulk-tag">🏬 Retailers</span>
+          <span class="bulk-tag">🔁 Resellers</span>
+          <span class="bulk-tag">🏨 Hotels &amp; restaurants</span>
+        </div>
+      </div>
+
+      <div class="bulk-includes">
+        <div class="bulk-includes-label">Includes</div>
+        <div class="bulk-include-item">MOQ</div>
+        <div class="bulk-include-item">Custom packaging</div>
+        <div class="bulk-include-item">Private labeling</div>
+        <div class="bulk-include-item">Corporate gifting</div>
+        <div class="bulk-include-item">Delivery timelines</div>
+        <div class="bulk-include-item">GST invoice</div>
+        <div class="bulk-include-item">Bulk pricing</div>
+      </div>
+
+      <div class="bulk-cta">
+        <div class="bulk-cta-copy">
+          <strong>Need 10kg+?</strong>
+          <span>Tell us your requirement and we'll get back with a custom quote.</span>
+        </div>
+        <a class="btn-primary" href="#contact">Request Bulk Pricing →</a>
       </div>
     </div>
   </div>
