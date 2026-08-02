@@ -222,8 +222,14 @@
     transition:padding .35s ease;
   }
   header.scrolled .nav{ padding:11px 32px; }
-  .nav-brand{ display:flex; align-items:center; gap:10px; }
-  .nav-brand img{ width:38px; height:38px; object-fit:contain; transition:width .35s ease, height .35s ease; }
+  .nav-brand{ display:flex; align-items:center; gap:11px; }
+  .nav-brand img{
+    width:38px; height:38px; object-fit:contain; flex-shrink:0;
+    padding:5px; border-radius:50%;
+    background:radial-gradient(circle at 30% 25%, rgba(255,255,255,0.9), rgba(243,236,224,0.55));
+    box-shadow:0 2px 8px rgba(19,42,30,0.18), inset 0 0 0 1px rgba(201,151,59,0.3);
+    transition:width .35s ease, height .35s ease, box-shadow .3s ease;
+  }
   header.scrolled .nav-brand img{ width:30px; height:30px; }
   .nav-brand span{
     font-family:'Anton', sans-serif;
@@ -263,17 +269,19 @@
     width:44px; height:44px; flex-shrink:0;
     align-items:center; justify-content:center;
     flex-direction:column; gap:6px;
-    border-radius:12px;
-    border:1px solid rgba(19,42,30,0.14);
-    background:rgba(255,255,255,0.55);
+    border-radius:50%;
+    border:1px solid rgba(201,151,59,0.3);
+    background:linear-gradient(160deg, rgba(255,255,255,0.75), rgba(243,236,224,0.5));
+    box-shadow:0 4px 14px -4px rgba(19,42,30,0.25), inset 0 0 0 1px rgba(255,255,255,0.4);
     cursor:pointer;
     -webkit-tap-highlight-color:transparent;
     transition:background .3s ease, border-color .3s ease, box-shadow .3s ease, transform .2s ease;
     animation:burgerBreathe 3.6s ease-in-out infinite;
   }
   .nav-burger:hover{
-    background:rgba(241,212,138,0.22); border-color:rgba(241,212,138,0.55);
+    background:rgba(241,212,138,0.28); border-color:rgba(241,212,138,0.65);
     transform:translateY(-1px);
+    box-shadow:0 6px 18px -4px rgba(201,151,59,0.35), inset 0 0 0 1px rgba(255,255,255,0.4);
   }
   .nav-burger:active{ transform:translateY(0) scale(0.92); }
   @keyframes burgerBreathe{
@@ -1823,7 +1831,7 @@
   }
   @media (max-width:900px){ .footer-grid{ grid-template-columns:1fr 1fr; gap:36px 32px; } }
   @media (max-width:560px){ .footer-grid{ grid-template-columns:1fr; gap:36px; } }
-  .footer-brand{ display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+  .footer-brand{ display:flex; align-items:center; gap:14px; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid rgba(243,236,224,0.1); }
   .footer-brand img{ width:52px; height:52px; object-fit:contain; }
   .footer-brand div span{ display:block; }
   .footer-brand .name{ font-family:'Anton', sans-serif; font-size:1.3rem; letter-spacing:0.02em; }
@@ -1848,31 +1856,97 @@
   .footer-contact-list a{ text-decoration:none; color:var(--parchment); font-weight:600; font-size:0.95rem; }
   .footer-contact-list a:hover{ color:var(--amber); }
   .footer-contact-list span.addr{ color:rgba(243,236,224,0.75); font-size:0.9rem; line-height:1.5; }
+  /* ---------- footer: newsletter band ---------- */
+  .footer-newsletter{
+    display:flex; align-items:center; justify-content:space-between; gap:24px;
+    flex-wrap:wrap;
+    padding:30px 34px;
+    margin-bottom:52px;
+    border-radius:20px;
+    background:linear-gradient(135deg, rgba(201,151,59,0.14), rgba(143,191,110,0.08));
+    border:1px solid rgba(243,236,224,0.14);
+  }
+  .footer-newsletter-copy h3{
+    font-family:'Anton', sans-serif; text-transform:uppercase; letter-spacing:0.01em;
+    font-size:1.3rem; color:var(--parchment); margin-bottom:6px; line-height:1.1;
+  }
+  .footer-newsletter-copy p{ font-size:0.9rem; color:rgba(243,236,224,0.65); }
+  .footer-quick-contact{
+    display:flex; gap:12px; flex-wrap:wrap; flex:1 1 380px;
+  }
+  .footer-quick-contact-item{
+    display:inline-flex; align-items:center; gap:12px;
+    background:rgba(243,236,224,0.06);
+    border:1px solid rgba(243,236,224,0.18);
+    border-radius:14px; padding:10px 18px 10px 10px;
+    text-decoration:none; color:var(--parchment);
+    transition:border-color .25s ease, background .25s ease, transform .2s ease;
+  }
+  .footer-quick-contact-item:hover{ border-color:rgba(201,151,59,0.6); background:rgba(201,151,59,0.12); transform:translateY(-2px); }
+  .footer-quick-contact-item .icon-dot{
+    width:34px; height:34px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg, var(--gold-3), var(--gold-1));
+  }
+  .footer-quick-contact-item .icon-dot svg{ display:block; width:16px; height:16px; flex-shrink:0; color:var(--forest-dark); }
+  .footer-quick-contact-text{ display:flex; flex-direction:column; gap:2px; line-height:1.25; }
+  .footer-quick-contact-text .k{ font-size:0.66rem; color:rgba(243,236,224,0.5); text-transform:uppercase; letter-spacing:0.06em; }
+  .footer-quick-contact-text span:last-child{ font-size:0.88rem; font-family:'Manrope', sans-serif; }
+  @media (max-width:720px){
+    .footer-newsletter{ padding:26px 22px; }
+    .footer-quick-contact{ width:100%; }
+    .footer-quick-contact-item{ flex:1 1 100%; }
+  }
+
+  /* ---------- footer: column dividers on desktop ---------- */
+  @media (min-width:901px){
+    .footer-col{ position:relative; }
+    .footer-col + .footer-col::before{
+      content:""; position:absolute; left:-20px; top:2px; bottom:2px; width:1px;
+      background:rgba(243,236,224,0.08);
+    }
+  }
   .footer-badges{
-    display:flex; gap:12px; flex-wrap:wrap;
+    display:flex; gap:14px; flex-wrap:wrap;
     padding:32px 0; border-bottom:1px solid rgba(243,236,224,0.12);
   }
   .footer-badges span{
-    display:inline-flex; align-items:center; gap:8px;
+    display:inline-flex; align-items:center; gap:10px;
     background:rgba(243,236,224,0.06);
     border:1px solid rgba(243,236,224,0.18);
-    padding:8px 14px; border-radius:10px;
+    padding:6px 16px 6px 6px; border-radius:100px;
     font-family:'JetBrains Mono', monospace; font-size:0.72rem;
     color:rgba(243,236,224,0.8);
-    transition:border-color .3s ease, background .3s ease;
+    transition:border-color .3s ease, background .3s ease, transform .25s ease;
   }
-  .footer-badges span:hover{ border-color:rgba(201,151,59,0.6); background:rgba(201,151,59,0.12); }
-  .footer-badges span svg{ width:15px; height:15px; flex-shrink:0; color:var(--gold-1); }
+  .footer-badges span:hover{ border-color:rgba(201,151,59,0.6); background:rgba(201,151,59,0.12); transform:translateY(-2px); }
+  .footer-badges span .icon-dot{
+    width:26px; height:26px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg, var(--gold-3), var(--gold-1));
+  }
+  .footer-badges span svg{ display:block; width:13px; height:13px; flex-shrink:0; color:var(--forest-dark); }
   .footer-bottom{
     display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
     padding:26px 0 32px; font-size:0.82rem; color:rgba(243,236,224,0.5);
   }
+  .footer-bottom-left{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  @media (max-width:560px){
+    .footer-bottom{ flex-direction:column; align-items:flex-start; }
+    .footer-bottom-left{ flex-direction:column; align-items:flex-start; gap:8px; }
+  }
+  .footer-legal-links{ display:flex; align-items:center; gap:16px; }
+  .footer-legal-links a{ color:rgba(243,236,224,0.5); text-decoration:none; transition:color .2s ease; }
+  .footer-legal-links a:hover{ color:var(--gold-1); }
+  .footer-legal-links span{ color:rgba(243,236,224,0.25); }
   .back-to-top{
     display:inline-flex; align-items:center; gap:8px;
     color:rgba(243,236,224,0.7); text-decoration:none; font-size:0.82rem; font-weight:600;
-    transition:color .2s ease;
+    padding:9px 16px; border-radius:100px;
+    border:1px solid rgba(243,236,224,0.18);
+    transition:color .2s ease, border-color .2s ease, background .2s ease;
   }
-  .back-to-top:hover{ color:var(--gold-1); }
+  .back-to-top:hover{ color:var(--gold-1); border-color:rgba(201,151,59,0.5); background:rgba(201,151,59,0.1); }
   .back-to-top svg{ width:15px; height:15px; transition:transform .25s ease; }
   .back-to-top:hover svg{ transform:translateY(-3px); }
 
@@ -1956,19 +2030,27 @@
        touch" pill all fighting for the same row. The catalog download is
        already available in the hero CTAs, so hide the header's copy and
        give the remaining two elements breathing room. */
-    .nav{ padding:12px 16px; gap:8px; }
-    .nav-brand{ gap:8px; min-width:0; }
-    .nav-brand img{ width:28px; height:28px; }
-    .nav-brand span{ font-size:0.88rem; white-space:nowrap; }
+    .nav{ padding:10px 14px; gap:8px; }
+    .nav-brand{ gap:9px; min-width:0; }
+    .nav-brand img{ width:34px; height:34px; padding:4px; }
+    .nav-brand span{ font-size:1.5rem; white-space:nowrap; letter-spacing:0.02em; }
     .nav > .btn-download{ display:none; }
     .nav-cta{ padding:9px 14px; font-size:0.78rem; flex-shrink:0; }
-    header.scrolled .nav{ padding:9px 16px; }
+    header.scrolled .nav{ padding:8px 14px; }
+    header.scrolled .nav-brand img{ width:28px; height:28px; }
 
     /* the hero's 88px top padding was tuned for desktop; on a narrow
        viewport it reads as a big empty gap before the eyebrow badge */
-    .hero{ padding:32px 0 0; }
+    .hero{ padding:28px 0 0; }
     .hero-inner{ padding-bottom:36px; }
-    .eyebrow{ margin-bottom:16px; font-size:0.68rem; padding:6px 10px; }
+    .eyebrow{
+      display:flex; align-items:flex-start; gap:8px;
+      margin-bottom:16px; font-size:0.68rem; letter-spacing:0.08em;
+      padding:10px 14px; border-radius:14px;
+      white-space:normal; text-align:left; line-height:1.6;
+      max-width:min(320px, 90%);
+    }
+    .eyebrow .dot{ margin-top:5px; flex-shrink:0; }
     .hero h1{ margin-bottom:14px; }
     .hero p.lede{ margin-bottom:24px; max-width:100%; }
     .hero-ctas{ margin-bottom:26px; gap:10px; }
@@ -1981,8 +2063,9 @@
   }
 
   @media (max-width:400px){
-    .nav{ padding:10px 14px; }
-    .nav-brand span{ font-size:0.8rem; }
+    .nav{ padding:9px 12px; }
+    .nav-brand img{ width:30px; height:30px; }
+    .nav-brand span{ font-size:0.82rem; }
     .nav-cta{ padding:8px 12px; font-size:0.74rem; }
     .hero-ctas a{ width:100%; }
   }
@@ -2106,7 +2189,7 @@
 <header id="siteHeader">
   <div class="nav">
     <div class="nav-brand">
-      <img style="width: 70px; height: 70px;" src="./image/logo.png" alt="Frunch Forest Logo">
+      <img src="./image/logo.png" alt="Frunch Forest Logo">
     <span>Frunch Forest</span>
     </div>
     <nav class="nav-links">
@@ -3050,6 +3133,35 @@
 <footer id="contact">
   <span class="sec-line"></span>
   <div class="wrap">
+    <div class="footer-newsletter reveal">
+      <div class="footer-newsletter-copy">
+        <h3>Questions before you order?</h3>
+        <p>Our team is happy to help — reach out on whichever channel is easiest for you.</p>
+      </div>
+      <div class="footer-quick-contact">
+        <a class="footer-quick-contact-item" href="tel:+919582122419">
+          <span class="icon-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"></path></svg></span>
+          <span class="footer-quick-contact-text">
+            <span class="k mono">Call</span>
+            <span>+91 95821 22419</span>
+          </span>
+        </a>
+        <a class="footer-quick-contact-item" href="mailto:frunchforest@gmail.com">
+          <span class="icon-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" style="display:none"></path><path d="M22 6c0-1.1-.9-2-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6Z"></path><path d="m22 6-10 7L2 6"></path></svg></span>
+          <span class="footer-quick-contact-text">
+            <span class="k mono">Email</span>
+            <span>frunchforest@gmail.com</span>
+          </span>
+        </a>
+        <a class="footer-quick-contact-item" href="https://wa.me/919582122419" target="_blank" rel="noopener">
+          <span class="icon-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.65-4.95A9 9 0 1 1 8.05 19.35Z"></path><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1Zm0 0c0 2 2 4.5 4 5m1-.5a.5.5 0 0 1-.5.5H13"></path></svg></span>
+          <span class="footer-quick-contact-text">
+            <span class="k mono">WhatsApp</span>
+            <span>Chat with us</span>
+          </span>
+        </a>
+      </div>
+    </div>
     <div class="footer-grid">
       <div class="footer-col footer-about">
         <div class="footer-brand">
@@ -3128,13 +3240,16 @@
       </div>
     </div>
     <div class="footer-badges reveal">
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path><path d="m9 12 2 2 4-4"></path></svg>FSSAI Licensed</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="m9 15 2 2 4-4"></path></svg>GST Registered</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 11 13.5 12 12"></path></svg>No Preservatives</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"></path><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>Hygienically Packed</span>
+      <span><span class="icon-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path><path d="m9 12 2 2 4-4"></path></svg></span>FSSAI Licensed</span>
+      <span><span class="icon-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="m9 15 2 2 4-4"></path></svg></span>GST Registered</span>
+      <span><span class="icon-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 11 13.5 12 12"></path></svg></span>No Preservatives</span>
+      <span><span class="icon-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"></path><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg></span>Hygienically Packed</span>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Frunch Forest. All rights reserved.</span>
+      <div class="footer-bottom-left">
+        <span>© 2026 Frunch Forest. All rights reserved.</span>
+        <span class="footer-legal-links"><a href="#">Privacy Policy</a><span>·</span><a href="#">Terms of Service</a></span>
+      </div>
       <a class="back-to-top" href="#">
         Back to top
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"></path><path d="m5 12 7-7 7 7"></path></svg>
@@ -3445,6 +3560,19 @@
       } else {
         target.addEventListener('load', ()=> target.classList.add('loaded'));
       }
+    });
+  })();
+
+  // footer newsletter: client-side only (no backend) — just confirm and reset
+  (function(){
+    const form = document.getElementById('footerNewsletterForm');
+    const note = document.getElementById('footerNewsletterNote');
+    if(!form || !note) return;
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      note.classList.add('show');
+      form.reset();
+      setTimeout(()=> note.classList.remove('show'), 5000);
     });
   })();
 
