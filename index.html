@@ -424,22 +424,64 @@
     font-size:1.3rem; color:var(--forest-dark); margin-bottom:20px;
   }
 
-  /* ---------- farm to door ---------- */
+  /* ---------- farm to door: animated journey timeline ---------- */
   #farm-journey{ background:linear-gradient(180deg, rgba(244,235,220,0.45), rgba(255,255,255,0.9)); }
-  .farm-journey-grid{
-    display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;
+  .journey-path{ position:relative; padding-top:8px; }
+  .journey-track{
+    position:absolute; left:29px; top:6px; bottom:6px; width:2px;
+    background:repeating-linear-gradient(180deg, rgba(19,42,30,0.16) 0 6px, transparent 6px 13px);
   }
-  .farm-step{
-    background:var(--parchment); border:1px solid rgba(19,42,30,0.08);
-    border-radius:20px; padding:28px 24px; box-shadow:0 18px 36px -26px rgba(19,42,30,0.3);
+  .journey-fill{
+    position:absolute; left:29px; top:6px; width:2px; height:0%;
+    background:linear-gradient(180deg, var(--gold-3), var(--forest-mid));
+    box-shadow:0 0 10px rgba(201,151,59,0.55);
+    transition:height .15s linear;
   }
-  .farm-step-num{
-    display:inline-block; margin-bottom:14px; font-family:'JetBrains Mono', monospace;
-    font-size:0.8rem; font-weight:700; color:var(--gold-3); letter-spacing:0.08em;
+  .journey-marker{
+    position:absolute; left:29px; top:6px; width:44px; height:44px;
+    transform:translate(-50%,-50%);
+    display:flex; align-items:center; justify-content:center;
+    background:var(--forest-dark); border-radius:50%; color:var(--gold-1);
+    box-shadow:0 10px 24px -10px rgba(19,42,30,0.55);
+    transition:top .12s linear;
+    z-index:4;
   }
-  .farm-step h3{ font-size:1.1rem; margin-bottom:10px; color:var(--forest-dark); }
-  .farm-step p{ font-size:0.95rem; color:rgba(34,30,23,0.72); line-height:1.7; }
-  @media (max-width:860px){ .farm-journey-grid{ grid-template-columns:1fr; } }
+  .journey-marker svg{ width:20px; height:20px; }
+  .journey-step{ position:relative; padding:0 0 52px 84px; }
+  .journey-step:last-child{ padding-bottom:0; }
+  .journey-icon{
+    position:absolute; left:0; top:0; width:60px; height:60px; border-radius:50%;
+    background:var(--parchment); border:2px solid rgba(19,42,30,0.12);
+    display:flex; align-items:center; justify-content:center; z-index:2;
+    box-shadow:0 12px 26px -16px rgba(19,42,30,0.3);
+    transition:border-color .5s ease, box-shadow .5s ease, transform .5s ease;
+  }
+  .journey-icon svg{ width:24px; height:24px; stroke:var(--forest-mid); transition:stroke .5s ease; }
+  .journey-step.in .journey-icon{
+    border-color:var(--gold-2); transform:scale(1.08);
+    box-shadow:0 16px 30px -14px rgba(201,151,59,0.5);
+  }
+  .journey-step.in .journey-icon svg{ stroke:var(--gold-3); }
+  .journey-num{
+    display:block; font-family:'JetBrains Mono', monospace; font-size:0.8rem;
+    font-weight:700; color:var(--gold-3); letter-spacing:0.08em; margin-bottom:8px;
+  }
+  .journey-step h3{ font-size:1.1rem; margin-bottom:8px; color:var(--forest-dark); }
+  .journey-step p{ font-size:0.95rem; color:rgba(34,30,23,0.72); line-height:1.7; }
+  .journey-final{ padding-left:84px; margin-top:4px; display:flex; align-items:center; gap:10px; }
+  .journey-final span{ font-family:'Fraunces', serif; font-style:italic; color:var(--forest-dark); font-size:1.05rem; }
+  @media (max-width:640px){
+    .journey-track, .journey-fill, .journey-marker{ left:23px; }
+    .journey-marker{ width:38px; height:38px; }
+    .journey-marker svg{ width:17px; height:17px; }
+    .journey-step{ padding-left:64px; padding-bottom:40px; }
+    .journey-icon{ width:48px; height:48px; }
+    .journey-icon svg{ width:20px; height:20px; }
+    .journey-final{ padding-left:64px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .journey-fill, .journey-marker{ transition:none; }
+  }
 
   /* ---------- gifting ---------- */
   #gifting{ background:linear-gradient(135deg, rgba(19,42,30,0.96), rgba(63,92,56,0.94)); }
@@ -448,11 +490,51 @@
     border:1px solid rgba(255,255,255,0.16); border-radius:28px; padding:54px 42px;
     box-shadow:0 24px 50px -24px rgba(0,0,0,0.35);
   }
+  .gifting-grid{ display:grid; grid-template-columns:1.05fr 0.95fr; gap:44px; align-items:center; }
   .gifting-copy h2{ font-size:clamp(2rem,3.6vw,2.8rem); color:var(--parchment); margin-bottom:16px; }
   .gifting-copy p{ color:rgba(243,236,224,0.85); font-size:1.02rem; max-width:720px; margin-bottom:24px; }
   .gifting-tags{ display:flex; flex-wrap:wrap; gap:12px; margin-bottom:26px; }
-  .gifting-tags span{ display:inline-block; padding:10px 14px; border-radius:999px; background:rgba(243,236,224,0.12); color:var(--parchment); border:1px solid rgba(243,236,224,0.2); font-size:0.92rem; }
+  .gifting-tag{
+    display:inline-block; padding:10px 14px; border-radius:999px; background:rgba(243,236,224,0.12);
+    color:var(--parchment); border:1px solid rgba(243,236,224,0.2); font-size:0.92rem;
+    cursor:pointer; transition:background .25s ease, border-color .25s ease, transform .2s ease;
+  }
+  .gifting-tag:hover, .gifting-tag:focus-visible, .gifting-tag.active{
+    background:rgba(241,212,138,0.22); border-color:rgba(241,212,138,0.55); transform:translateY(-2px);
+    outline:none;
+  }
   .gifting-btn{ display:inline-flex; align-items:center; gap:8px; }
+  /* right-side preview that swaps with the hovered/tapped tag */
+  .gifting-visual{
+    position:relative; aspect-ratio:4/5; border-radius:22px; overflow:hidden;
+    box-shadow:0 26px 54px -22px rgba(0,0,0,0.5); border:1px solid rgba(243,236,224,0.14);
+  }
+  .gifting-visual-item{
+    position:absolute; inset:0; opacity:0; visibility:hidden;
+    transition:opacity .5s ease, visibility .5s ease;
+    background:linear-gradient(135deg, var(--gv-a), var(--gv-b));
+    display:flex; align-items:center; justify-content:center;
+  }
+  .gifting-visual-item.active{ opacity:1; visibility:visible; }
+  .gifting-visual-item img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;
+  }
+  .gifting-visual-item .gv-fallback{
+    position:relative; z-index:1; font-size:4rem;
+    filter:drop-shadow(0 10px 22px rgba(0,0,0,0.35));
+    transition:opacity .3s ease;
+  }
+  .gifting-visual-item.has-photo .gv-fallback{ opacity:0; }
+  .gifting-visual-item .gv-label{
+    position:absolute; z-index:2; left:16px; bottom:16px;
+    font-family:'JetBrains Mono', monospace; font-size:0.8rem; letter-spacing:0.06em; text-transform:uppercase;
+    color:rgba(243,236,224,0.95); background:rgba(19,42,30,0.45); backdrop-filter:blur(6px);
+    padding:8px 14px; border-radius:999px;
+  }
+  @media (max-width:860px){
+    .gifting-grid{ grid-template-columns:1fr; }
+    .gifting-visual{ aspect-ratio:16/10; order:-1; }
+  }
   @media (max-width:760px){ .gifting-wrap{ padding:36px 24px; } .gifting-tags{ gap:8px; } }
 
   /* ---------- why choose us ---------- */
@@ -1300,32 +1382,56 @@
       <h2>From the source to your doorstep</h2>
       <p>Every pouch carries a story of care — from sourcing to quality checks, processing, packing, and final delivery.</p>
     </div>
-    <div class="farm-journey-grid">
-      <div class="farm-step reveal">
-        <span class="farm-step-num">01 — Sourced</span>
+    <div class="journey-path" id="journeyPath">
+      <div class="journey-track"></div>
+      <div class="journey-fill" id="journeyFill"></div>
+      <div class="journey-marker" id="journeyMarker" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16V6a1 1 0 0 1 1-1h9l4 4h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg>
+      </div>
+      <div class="journey-step reveal">
+        <div class="journey-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4-1 7-5 7-10 0-3-2-6-7-8-5 2-7 5-7 8 0 5 3 9 7 10Z"></path><path d="M12 14V6"></path></svg>
+        </div>
+        <span class="journey-num">01 — Sourced</span>
         <h3>Carefully selected suppliers</h3>
         <p>We begin with trusted sources so the journey starts with quality, consistency, and respect for the produce.</p>
       </div>
-      <div class="farm-step reveal">
-        <span class="farm-step-num">02 — Quality Checked</span>
+      <div class="journey-step reveal">
+        <div class="journey-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path><path d="m8.5 11 2 2 4-4"></path></svg>
+        </div>
+        <span class="journey-num">02 — Quality Checked</span>
         <h3>Every batch inspected</h3>
         <p>Each lot is reviewed for freshness, cleanliness, and standards before it moves forward.</p>
       </div>
-      <div class="farm-step reveal">
-        <span class="farm-step-num">03 — Hygienically Processed</span>
+      <div class="journey-step reveal">
+        <div class="journey-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z"></path></svg>
+        </div>
+        <span class="journey-num">03 — Hygienically Processed</span>
         <h3>Cleaned &amp; sorted</h3>
         <p>The product is carefully prepared and sorted to preserve its natural goodness and texture.</p>
       </div>
-      <div class="farm-step reveal">
-        <span class="farm-step-num">04 — Packed</span>
+      <div class="journey-step reveal">
+        <div class="journey-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"></path><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
+        </div>
+        <span class="journey-num">04 — Packed</span>
         <h3>Sealed for freshness</h3>
         <p>We seal every pack to protect quality and keep the experience as fresh as possible.</p>
       </div>
-      <div class="farm-step reveal">
-        <span class="farm-step-num">05 — Delivered</span>
+      <div class="journey-step reveal">
+        <div class="journey-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16V6a1 1 0 0 1 1-1h9l4 4h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg>
+        </div>
+        <span class="journey-num">05 — Delivered</span>
         <h3>From Frunch Forest to your doorstep</h3>
         <p>The final step is simple: bringing premium dry fruits to homes across India with care and consistency.</p>
       </div>
+    </div>
+    <div class="journey-final reveal">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0L12 5.34l-.77-.76a5.4 5.4 0 0 0-7.65 0 5.4 5.4 0 0 0 0 7.65l.77.76L12 21l7.65-7.99.77-.76a5.4 5.4 0 0 0 0-7.65Z"></path></svg>
+      <span>One continuous journey — from forest to your family's table.</span>
     </div>
   </div>
 </section>
@@ -1352,18 +1458,47 @@
 <section id="gifting">
   <span class="sec-line"></span>
   <div class="wrap gifting-wrap reveal">
-    <div class="gifting-copy">
-      <div class="eyebrow">Corporate Gifting</div>
-      <h2>Make Every Celebration Crunchier</h2>
-      <p>Premium dry-fruit gifting for Diwali, corporate gifting, weddings, events, and employee appreciation.</p>
-      <div class="gifting-tags">
-        <span>🎁 Diwali</span>
-        <span>💼 Corporate gifting</span>
-        <span>💍 Weddings</span>
-        <span>🎉 Events</span>
-        <span>🏢 Employee gifts</span>
+    <div class="gifting-grid">
+      <div class="gifting-copy">
+        <div class="eyebrow">Corporate Gifting</div>
+        <h2>Make Every Celebration Crunchier</h2>
+        <p>Premium dry-fruit gifting for Diwali, corporate gifting, weddings, events, and employee appreciation.</p>
+        <div class="gifting-tags">
+          <span class="gifting-tag active" data-target="diwali" tabindex="0">🎁 Diwali</span>
+          <span class="gifting-tag" data-target="corporate" tabindex="0">💼 Corporate gifting</span>
+          <span class="gifting-tag" data-target="wedding" tabindex="0">💍 Weddings</span>
+          <span class="gifting-tag" data-target="events" tabindex="0">🎉 Events</span>
+          <span class="gifting-tag" data-target="employee" tabindex="0">🏢 Employee gifts</span>
+        </div>
+        <a class="btn-primary gifting-btn" href="#contact">Request a Gifting Quote →</a>
       </div>
-      <a class="btn-primary gifting-btn" href="#contact">Request a Gifting Quote →</a>
+      <div class="gifting-visual" id="giftingVisual">
+        <div class="gifting-visual-item active" data-item="diwali" style="--gv-a:#C9973B;--gv-b:#8B6420;">
+          <img src="./image/gifting-diwali.jpg" alt="Diwali dry-fruit gifting hampers" loading="lazy">
+          <span class="gv-fallback">🎁</span>
+          <span class="gv-label">Diwali Hampers</span>
+        </div>
+        <div class="gifting-visual-item" data-item="corporate" style="--gv-a:#3E7C4A;--gv-b:#132A1E;">
+          <img src="./image/gifting-corporate.jpg" alt="Corporate gifting boxes" loading="lazy">
+          <span class="gv-fallback">💼</span>
+          <span class="gv-label">Corporate Boxes</span>
+        </div>
+        <div class="gifting-visual-item" data-item="wedding" style="--gv-a:#8FBF6E;--gv-b:#3E7C4A;">
+          <img src="./image/gifting-wedding.jpg" alt="Wedding favour gifting" loading="lazy">
+          <span class="gv-fallback">💍</span>
+          <span class="gv-label">Wedding Favours</span>
+        </div>
+        <div class="gifting-visual-item" data-item="events" style="--gv-a:#F1D48A;--gv-b:#C9973B;">
+          <img src="./image/gifting-events.jpg" alt="Event gifting spread" loading="lazy">
+          <span class="gv-fallback">🎉</span>
+          <span class="gv-label">Event Spreads</span>
+        </div>
+        <div class="gifting-visual-item" data-item="employee" style="--gv-a:#5B3A24;--gv-b:#221E17;">
+          <img src="./image/gifting-employee.jpg" alt="Employee appreciation gifts" loading="lazy">
+          <span class="gv-fallback">🏢</span>
+          <span class="gv-label">Employee Appreciation</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -2004,6 +2139,62 @@
   window.addEventListener('load', ()=>{
     document.querySelectorAll('.hero-stats [data-count]').forEach(countUp);
   });
+
+  // "our journey" timeline: line fills and the marker travels down as the section scrolls into view
+  (function(){
+    const path = document.getElementById('journeyPath');
+    const fill = document.getElementById('journeyFill');
+    const marker = document.getElementById('journeyMarker');
+    if(!path || !fill || !marker) return;
+    let ticking = false;
+    function update(){
+      ticking = false;
+      const rect = path.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const startY = vh * 0.82;
+      const endY = vh * 0.3;
+      const span = (startY - endY) + rect.height;
+      let progress = span > 0 ? (startY - rect.top) / span : 0;
+      progress = Math.max(0, Math.min(1, progress));
+      const usable = Math.max(rect.height - 12, 0);
+      fill.style.height = (progress * 100) + '%';
+      marker.style.top = (6 + progress * usable) + 'px';
+    }
+    function onScrollOrResize(){
+      if(!ticking){ requestAnimationFrame(update); ticking = true; }
+    }
+    document.addEventListener('scroll', onScrollOrResize, { passive:true });
+    window.addEventListener('resize', onScrollOrResize);
+    window.addEventListener('load', update);
+    update();
+  })();
+
+  // corporate gifting: hovering/tapping a tag swaps the relevant image on the right
+  (function(){
+    const tags = document.querySelectorAll('.gifting-tag');
+    const items = document.querySelectorAll('.gifting-visual-item');
+    if(!tags.length || !items.length) return;
+    function activate(target){
+      tags.forEach(t=> t.classList.toggle('active', t.getAttribute('data-target') === target));
+      items.forEach(it=> it.classList.toggle('active', it.getAttribute('data-item') === target));
+    }
+    tags.forEach(tag=>{
+      const target = tag.getAttribute('data-target');
+      tag.addEventListener('mouseenter', ()=> activate(target));
+      tag.addEventListener('focus', ()=> activate(target));
+      tag.addEventListener('click', ()=> activate(target));
+      tag.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); activate(target); }
+      });
+    });
+    // if a real photo is dropped into ./image/, fade out the emoji placeholder once it loads
+    items.forEach(item=>{
+      const img = item.querySelector('img');
+      if(!img) return;
+      img.addEventListener('load', ()=> item.classList.add('has-photo'));
+      img.addEventListener('error', ()=>{ img.style.display = 'none'; item.classList.remove('has-photo'); });
+    });
+  })();
 
   // faq accordion
   document.querySelectorAll('.faq-item').forEach(item=>{
