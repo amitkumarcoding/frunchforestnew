@@ -752,12 +752,106 @@
     color:rgba(243,236,224,0.95); background:rgba(19,42,30,0.45); backdrop-filter:blur(6px);
     padding:8px 14px; border-radius:999px;
   }
+  /* diagonal ribbon band across the top-left corner of the visual */
+  .diagonal-ribbon{
+    position:absolute; z-index:6; top:24px; left:-58px;
+    width:210px; padding:8px 0; text-align:center;
+    background:linear-gradient(120deg, var(--gold-1), var(--gold-2) 55%, var(--gold-3));
+    background-size:220% 100%;
+    color:var(--forest-dark);
+    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:0.72rem;
+    letter-spacing:0.09em; text-transform:uppercase;
+    transform:rotate(-45deg);
+    box-shadow:0 8px 18px -6px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.35);
+    animation:ribbonShine 3.6s ease-in-out infinite;
+  }
+  .diagonal-ribbon::before, .diagonal-ribbon::after{
+    content:""; position:absolute; bottom:-6px; width:0; height:0;
+    border-style:solid; border-width:6px 7px 0 7px;
+    border-color:var(--gold-3) transparent transparent transparent;
+  }
+  .diagonal-ribbon::before{ left:2px; }
+  .diagonal-ribbon::after{ right:2px; }
+  @keyframes ribbonShine{
+    0%,100%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+  }
+  /* small ribbon-style tag badge, sits above the heading */
+  .ribbon-band{
+    position:relative; display:inline-flex; align-items:center; gap:8px;
+    padding:9px 22px; margin-bottom:16px;
+    background:linear-gradient(120deg, var(--gold-1), var(--gold-2) 55%, var(--gold-3));
+    background-size:220% 100%;
+    color:var(--forest-dark);
+    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:0.7rem;
+    letter-spacing:0.1em; text-transform:uppercase;
+    clip-path:polygon(14px 0, 100% 0, 100% 50%, 100% 100%, 14px 100%, 0 50%);
+    box-shadow:0 10px 22px -10px rgba(0,0,0,0.5);
+    animation:ribbonShine 3.6s ease-in-out infinite;
+  }
   @media (max-width:860px){
     .gifting-grid{ grid-template-columns:1fr; }
     .gifting-visual{ aspect-ratio:16/10; order:-1; }
   }
   @media (max-width:760px){ .gifting-wrap{ padding:36px 24px; } .gifting-tags{ gap:8px; } }
   @media (prefers-reduced-motion: reduce){ .gifting-bg-slide{ transition:opacity .3s ease; transform:none; } }
+
+  /* ---------- celebration heading: shimmering gold text + drifting confetti + sparkles ---------- */
+  .gifting-copy h2{ position:relative; overflow:visible; }
+  .gifting-copy h2 .crunch-word{
+    position:relative; display:inline-block;
+    background:linear-gradient(100deg, var(--gold-3) 0%, var(--gold-1) 24%, #fff6df 46%, var(--gold-1) 68%, var(--gold-3) 100%);
+    background-size:250% 100%;
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    animation:crunchShimmer 4.2s ease-in-out infinite;
+  }
+  @keyframes crunchShimmer{
+    0%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+    100%{ background-position:0% 50%; }
+  }
+  .confetti-field{
+    position:absolute; left:-14px; right:-14px; top:-36px; height:118px;
+    pointer-events:none; z-index:0; overflow:visible;
+  }
+  .confetti-piece{
+    position:absolute; top:62%; display:block;
+    width:9px; height:13px; border-radius:2px; opacity:0;
+    animation:confettiFloat 3.4s ease-in-out infinite;
+  }
+  .confetti-piece.circ{ border-radius:50%; }
+  .confetti-piece.c1{ left:2%;  background:var(--gold-1); animation-delay:.1s; }
+  .confetti-piece.c2{ left:15%; width:8px; height:8px; background:var(--forest-light); animation-delay:.75s; }
+  .confetti-piece.c3{ left:29%; background:var(--gold-2); animation-delay:1.35s; }
+  .confetti-piece.c4{ left:44%; width:7px; height:7px; background:var(--parchment); animation-delay:.4s; }
+  .confetti-piece.c5{ left:58%; background:var(--gold-1); animation-delay:1.75s; }
+  .confetti-piece.c6{ left:71%; width:8px; height:8px; background:var(--forest-light); animation-delay:1s; }
+  .confetti-piece.c7{ left:84%; background:var(--gold-2); animation-delay:2.05s; }
+  .confetti-piece.c8{ left:93%; width:6px; height:6px; background:var(--parchment); animation-delay:.9s; }
+  @keyframes confettiFloat{
+    0%{ transform:translateY(28px) rotate(0deg) scale(0.6); opacity:0; }
+    15%{ opacity:1; }
+    55%{ transform:translateY(-44px) rotate(210deg) scale(1); opacity:1; }
+    85%{ opacity:.4; }
+    100%{ transform:translateY(-68px) rotate(330deg) scale(0.7); opacity:0; }
+  }
+  .sparkle{
+    position:absolute; z-index:1; color:var(--gold-1); line-height:1; pointer-events:none;
+    animation:sparkleTwinkle 2.3s ease-in-out infinite;
+    filter:drop-shadow(0 0 6px rgba(241,212,138,0.7));
+  }
+  .sparkle.s1{ top:-16px; left:2px; font-size:1.05rem; animation-delay:0s; }
+  .sparkle.s2{ top:2px; right:-14px; font-size:0.75rem; animation-delay:.6s; }
+  .sparkle.s3{ bottom:-16px; left:36%; font-size:0.85rem; animation-delay:1.2s; }
+  @keyframes sparkleTwinkle{
+    0%,100%{ transform:scale(0.5) rotate(0deg); opacity:0.25; }
+    50%{ transform:scale(1.15) rotate(20deg); opacity:1; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .crunch-word{ animation:none; }
+    .confetti-piece, .sparkle{ display:none; }
+    .diagonal-ribbon, .ribbon-band{ animation:none; }
+  }
 
   /* ---------- bulk & corporate orders ---------- */
   #bulk{ background:var(--parchment-deep); }
@@ -1221,31 +1315,80 @@
     .offer-banner .offer-pill{ width:100%; justify-content:center; }
   }
 
-  /* ---------- coming soon ---------- */
-  #coming{ background:var(--parchment); }
+  /* ---------- coming soon: premium spice teaser ---------- */
+  #coming{ background:var(--parchment); position:relative; overflow:hidden; }
+  #coming::before{
+    content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(620px 340px at 10% 15%, rgba(201,151,59,0.14), transparent 60%),
+      radial-gradient(520px 320px at 92% 85%, rgba(91,58,36,0.12), transparent 60%);
+  }
+  #coming .wrap{ position:relative; z-index:1; }
   .coming-band{
-    border:1.5px dashed rgba(107,66,36,0.4);
-    border-radius:22px;
-    padding:44px;
+    position:relative; isolation:isolate;
+    border:1px solid rgba(107,66,36,0.22);
+    border-radius:26px;
+    padding:50px 46px;
     display:grid;
     grid-template-columns:1.1fr 0.9fr;
     gap:36px;
     align-items:center;
+    background:linear-gradient(135deg, rgba(233,223,204,0.92), rgba(243,236,224,0.55));
+    box-shadow:0 30px 60px -34px rgba(91,58,36,0.4), inset 0 1px 0 rgba(255,255,255,0.55);
+    overflow:hidden;
   }
-  @media (max-width:800px){ .coming-band{ grid-template-columns:1fr; padding:30px; } }
+  .coming-band::after{
+    content:""; position:absolute; inset:12px; z-index:0;
+    border:1.5px dashed rgba(107,66,36,0.28); border-radius:18px;
+    pointer-events:none;
+  }
+  .coming-band > *{ position:relative; z-index:1; }
+  @media (max-width:800px){ .coming-band{ grid-template-columns:1fr; padding:34px 26px; } }
   .coming-band h2{ font-size:clamp(1.9rem, 4vw, 2.6rem); margin-bottom:14px; }
   .coming-band p{ color:rgba(34,30,23,0.72); font-size:1rem; max-width:420px; }
+  .coming-band .eyebrow{ display:inline-flex; align-items:center; gap:8px; }
+  .coming-band .eyebrow .pulse-dot{
+    position:relative; display:inline-block; width:7px; height:7px; border-radius:50%;
+    background:var(--walnut); flex:none;
+  }
+  .coming-band .eyebrow .pulse-dot::after{
+    content:""; position:absolute; inset:-5px; border-radius:50%;
+    border:1.5px solid var(--walnut); opacity:.6;
+    animation:pulseRing 2.2s ease-out infinite;
+  }
+  @keyframes pulseRing{
+    0%{ transform:scale(0.6); opacity:.7; }
+    100%{ transform:scale(2.4); opacity:0; }
+  }
   .spice-dots{
-    display:flex; gap:12px; flex-wrap:wrap;
+    display:flex; gap:16px; flex-wrap:wrap;
   }
   .spice-dots span{
-    width:56px; height:56px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    font-family:'JetBrains Mono', monospace; font-size:0.62rem; font-weight:700;
+    width:66px; height:66px; border-radius:50%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+    font-family:'JetBrains Mono', monospace; font-size:0.6rem; font-weight:700; line-height:1.1;
     color:var(--parchment); text-align:center;
+    border:1px solid rgba(255,255,255,0.25);
+    box-shadow:0 12px 22px -10px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.22);
+    animation:spiceBob 3.6s ease-in-out infinite;
     transition:transform .3s ease, box-shadow .3s ease;
   }
-  .spice-dots span:hover{ transform:translateY(-6px) scale(1.08); box-shadow:0 14px 22px -10px rgba(0,0,0,0.4); }
+  .spice-dots span .spice-emoji{ font-size:1.05rem; line-height:1; filter:drop-shadow(0 2px 3px rgba(0,0,0,0.3)); }
+  .spice-dots span:nth-child(1){ animation-delay:0s; }
+  .spice-dots span:nth-child(2){ animation-delay:.3s; }
+  .spice-dots span:nth-child(3){ animation-delay:.6s; }
+  .spice-dots span:nth-child(4){ animation-delay:.9s; }
+  .spice-dots span:nth-child(5){ animation-delay:1.2s; }
+  .spice-dots span:nth-child(6){ animation-delay:1.5s; }
+  @keyframes spiceBob{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-7px); }
+  }
+  .spice-dots span:hover{ transform:translateY(-10px) scale(1.1); box-shadow:0 18px 30px -12px rgba(0,0,0,0.5); }
+  @media (prefers-reduced-motion: reduce){
+    .spice-dots span{ animation:none; }
+    .coming-band .eyebrow .pulse-dot::after{ animation:none; }
+  }
 
   /* ---------- packaging ---------- */
   #packaging{ background:var(--parchment-deep); }
@@ -1987,7 +2130,21 @@
     <div class="gifting-grid">
       <div class="gifting-copy">
         <div class="eyebrow">Corporate Gifting</div>
-        <h2>Make Every Celebration Crunchier</h2>
+        <span class="ribbon-band">🎗️ Festive Season Special</span>
+        <h2>
+          <span class="confetti-field" aria-hidden="true">
+            <i class="confetti-piece c1"></i>
+            <i class="confetti-piece c2 circ"></i>
+            <i class="confetti-piece c3"></i>
+            <i class="confetti-piece c4 circ"></i>
+            <i class="confetti-piece c5"></i>
+            <i class="confetti-piece c6 circ"></i>
+            <i class="confetti-piece c7"></i>
+            <i class="confetti-piece c8 circ"></i>
+          </span>
+          <span class="sparkle s1" aria-hidden="true">✦</span>
+          Make Every Celebration <span class="crunch-word">Crunchier<span class="sparkle s2" aria-hidden="true">✦</span></span><span class="sparkle s3" aria-hidden="true">✦</span>
+        </h2>
         <p>Premium dry-fruit gifting for Diwali, corporate gifting, weddings, events, and employee appreciation.</p>
         <div class="gifting-tags">
           <span class="gifting-tag active" data-target="diwali" tabindex="0">🎁 Diwali</span>
@@ -1999,6 +2156,7 @@
         <a class="btn-primary gifting-btn" href="#contact">Request a Gifting Quote →</a>
       </div>
       <div class="gifting-visual" id="giftingVisual">
+        <span class="diagonal-ribbon" aria-hidden="true">Gift Ready</span>
         <div class="gifting-visual-item active" data-item="diwali" style="--gv-a:#C9973B;--gv-b:#8B6420;">
           <img src="./diwali2.jpg" alt="Diwali dry-fruit gifting hampers" loading="lazy">
           <span class="gv-fallback">🎁</span>
@@ -2349,17 +2507,17 @@
   <div class="wrap">
     <div class="coming-band reveal">
       <div>
-        <div class="eyebrow" style="color:var(--walnut); border-color:rgba(107,66,36,0.35); background:rgba(107,66,36,0.06);">Coming soon</div>
-        <h2>A premium spice range is on its way</h2>
+        <div class="eyebrow" style="color:var(--walnut); border-color:rgba(107,66,36,0.35); background:rgba(107,66,36,0.06);"><span class="pulse-dot" aria-hidden="true"></span>Coming soon</div>
+        <h2>A <span class="accent-serif" style="color:var(--gold-3);">premium</span> spice range is on its way</h2>
         <p>Pure and aromatic spices — sourced with the same care as our nuts and dry fruits. Stay tuned for the launch.</p>
       </div>
       <div class="spice-dots">
-        <span style="background:#B5451B;">Chilli</span>
-        <span style="background:#C9973B;">Turmeric</span>
-        <span style="background:#7A8B4F;">Cardamom</span>
-        <span style="background:#8E6C3A;">Coriander</span>
-        <span style="background:#6B4226;">Pepper</span>
-        <span style="background:#5B7A5B;">Fennel</span>
+        <span style="background:#B5451B;"><span class="spice-emoji">🌶️</span>Chilli</span>
+        <span style="background:#C9973B;"><span class="spice-emoji">🫚</span>Turmeric</span>
+        <span style="background:#7A8B4F;"><span class="spice-emoji">🌿</span>Cardamom</span>
+        <span style="background:#8E6C3A;"><span class="spice-emoji">🌱</span>Coriander</span>
+        <span style="background:#6B4226;"><span class="spice-emoji">⚫</span>Pepper</span>
+        <span style="background:#5B7A5B;"><span class="spice-emoji">🌾</span>Fennel</span>
       </div>
     </div>
   </div>
