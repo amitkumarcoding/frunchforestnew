@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#F3ECE0">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <title>Frunch Forest — Natural Dry Fruits</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -521,13 +519,16 @@
     overflow:hidden;
     box-shadow:0 30px 60px -20px rgba(19,42,30,0.4), inset 0 0 0 1px rgba(19,42,30,0.08);
     animation:float 6s ease-in-out infinite;
+    flex-shrink:0;
   }
   @keyframes float{ 0%,100%{ translate:0 0;} 50%{ translate:0 -14px;} }
   @media (prefers-reduced-motion: reduce){ .hero-badge{ animation:none; } }
   .hero-visual::before{
     content:"";
     position:absolute; z-index:-1;
-    width:min(460px,108%); aspect-ratio:1;
+    top:50%; left:50%;
+    translate:-50% -50%;
+    width:min(460px,100%); aspect-ratio:1;
     border-radius:50%;
     background:conic-gradient(from 0deg, var(--gold-1), var(--forest-light), var(--gold-2), var(--forest-mid), var(--gold-1));
     filter:blur(2px);
@@ -549,7 +550,7 @@
   .hero-badge .badge-mark{
     position:absolute; left:50%; top:50%;
     transform:translate(-50%,-50%);
-    width:44%; aspect-ratio:1;
+    width:44%; height:44%;
     border-radius:50%;
     background:radial-gradient(circle at 35% 30%, #fff, var(--parchment-deep) 75%);
     display:flex; align-items:center; justify-content:center;
