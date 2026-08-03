@@ -1539,8 +1539,9 @@
     border-radius:24px;
     background:linear-gradient(120deg, rgba(201,151,59,0.2), rgba(62,124,74,0.16));
     border:1px solid rgba(19,42,30,0.12);
-    display:flex; align-items:center; justify-content:space-between; gap:20px;
+    display:flex; align-items:center; justify-content:space-between; gap:28px;
     box-shadow:0 18px 36px -22px rgba(19,42,30,0.35);
+    flex-wrap:wrap;
   }
   .offer-banner h3{
     font-family:'Manrope', sans-serif; text-transform:none; letter-spacing:0;
@@ -1556,6 +1557,88 @@
   @media (max-width:760px){
     .offer-banner{ flex-direction:column; align-items:flex-start; padding:24px 22px; }
     .offer-banner .offer-pill{ width:100%; justify-content:center; }
+  }
+
+  /* ---------- offer banner: opt-in capture ---------- */
+  .offer-capture{
+    flex:0 0 auto; width:min(380px, 100%);
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .offer-capture-tabs{
+    display:inline-flex; gap:4px; padding:4px;
+    background:rgba(19,42,30,0.08); border-radius:999px;
+    align-self:flex-start;
+  }
+  .offer-capture-tab{
+    border:none; background:transparent; cursor:pointer;
+    padding:7px 14px; border-radius:999px;
+    font-family:'Manrope', sans-serif; font-weight:700; font-size:0.78rem;
+    color:rgba(34,30,23,0.6);
+    display:inline-flex; align-items:center; gap:6px;
+    transition:background .2s ease, color .2s ease;
+  }
+  .offer-capture-tab.active{ background:var(--forest-dark); color:var(--parchment); }
+  .offer-capture-panel{ display:none; }
+  .offer-capture-panel.active{ display:flex; gap:10px; flex-wrap:wrap; }
+  .offer-capture-panel input{
+    flex:1 1 190px; min-width:0;
+    padding:13px 16px; border-radius:100px;
+    border:1.5px solid rgba(19,42,30,0.18);
+    background:rgba(243,236,224,0.55);
+    font-family:'Manrope', sans-serif; font-size:0.92rem; color:var(--ink);
+    outline:none;
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .offer-capture-panel input::placeholder{ color:rgba(34,30,23,0.45); }
+  .offer-capture-panel input:focus{ border-color:var(--amber); background:#fff; }
+  .offer-capture-panel input.error{ border-color:#B3432B; }
+  .offer-capture-submit{
+    border:none; cursor:pointer;
+    background:var(--forest-dark); color:var(--parchment);
+    padding:13px 22px; border-radius:100px; font-weight:700; font-size:0.88rem;
+    white-space:nowrap;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .offer-capture-submit:hover{ background:var(--forest-mid); transform:translateY(-2px); }
+  .offer-capture-submit:disabled{ opacity:0.6; cursor:default; transform:none; }
+  .offer-capture-wa-note, .offer-capture-error, .offer-capture-fine{
+    font-size:0.74rem; color:rgba(34,30,23,0.55); margin:0;
+  }
+  .offer-capture-error{ color:#B3432B; display:none; }
+  .offer-capture-error.show{ display:block; }
+  .offer-capture-skip{
+    font-size:0.78rem; font-weight:600; color:var(--walnut);
+    text-decoration:underline; text-underline-offset:2px; align-self:flex-start;
+  }
+  /* success state: code reveal */
+  .offer-capture-success{
+    display:none; align-items:center; gap:14px; flex-wrap:wrap;
+  }
+  .offer-capture-success.show{ display:flex; }
+  .offer-capture.is-submitted .offer-capture-tabs,
+  .offer-capture.is-submitted .offer-capture-panel,
+  .offer-capture.is-submitted .offer-capture-error,
+  .offer-capture.is-submitted .offer-capture-wa-note{ display:none; }
+  .offer-capture-code{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:11px 18px; border-radius:14px;
+    background:var(--forest-dark); border:1.5px dashed rgba(241,212,138,0.6);
+  }
+  .offer-capture-code .code-val{
+    font-family:'JetBrains Mono', monospace; font-weight:700; letter-spacing:0.06em;
+    color:var(--gold-1); font-size:1.02rem;
+  }
+  .offer-capture-code button{
+    border:none; background:rgba(241,212,138,0.16); color:var(--parchment);
+    border-radius:8px; padding:5px 10px; font-size:0.72rem; font-weight:700; cursor:pointer;
+    transition:background .2s ease;
+  }
+  .offer-capture-code button:hover{ background:rgba(241,212,138,0.3); }
+  .offer-capture-success p{ font-size:0.85rem; margin:0; color:rgba(34,30,23,0.75); }
+  @media (max-width:760px){
+    .offer-capture{ width:100%; }
+    .offer-capture-panel input{ flex:1 1 100%; }
+    .offer-capture-submit{ width:100%; justify-content:center; }
   }
 
   /* ---------- coming soon: premium spice teaser ---------- */
@@ -2777,9 +2860,43 @@
     <div class="offer-banner reveal">
       <div>
         <h3>Welcome to the Frunch Forest family</h3>
-        <p>Get 10% OFF on your first order and discover a premium range of dry fruits made for everyday joy.</p>
+        <p>Get 10% OFF on your first order — tell us where to send the code.</p>
       </div>
-      <a class="btn-primary" href="./products.html">Shop Now →</a>
+
+      <form class="offer-capture" id="offerCaptureForm" novalidate>
+        <div class="offer-capture-tabs" role="tablist" aria-label="Choose how to get your code">
+          <button type="button" class="offer-capture-tab active" data-method="email" role="tab" aria-selected="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6c0-1.1-.9-2-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6Z"></path><path d="m22 6-10 7L2 6"></path></svg>
+            Email
+          </button>
+          <button type="button" class="offer-capture-tab" data-method="whatsapp" role="tab" aria-selected="false">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.65-4.95A9 9 0 1 1 8.05 19.35Z"></path></svg>
+            WhatsApp
+          </button>
+        </div>
+
+        <div class="offer-capture-panel active" data-panel="email">
+          <input type="email" id="offerEmailInput" placeholder="you@email.com" autocomplete="email" aria-label="Email address">
+          <button type="submit" class="offer-capture-submit">Get My Code →</button>
+        </div>
+
+        <div class="offer-capture-panel" data-panel="whatsapp">
+          <input type="tel" id="offerPhoneInput" placeholder="10-digit WhatsApp number" autocomplete="tel" inputmode="numeric" maxlength="10" aria-label="WhatsApp number">
+          <button type="submit" class="offer-capture-submit">Send Code on WhatsApp →</button>
+        </div>
+
+        <p class="offer-capture-error" id="offerCaptureError"></p>
+        <p class="offer-capture-wa-note" data-note="email">We'll only use this to send your code and occasional offers — no spam.</p>
+        <p class="offer-capture-wa-note" data-note="whatsapp" style="display:none;">Opens WhatsApp with your code request pre-filled — just hit send.</p>
+
+        <div class="offer-capture-success" id="offerCaptureSuccess">
+          <div class="offer-capture-code">
+            <span class="code-val" id="offerCaptureCodeVal">FF10WELCOME</span>
+            <button type="button" id="offerCaptureCopyBtn">Copy</button>
+          </div>
+          <p>Code's yours — <a href="./products.html" style="color:var(--forest-dark); text-decoration:underline;">start shopping →</a></p>
+        </div>
+      </form>
     </div>
   </div>
 </section>
@@ -3784,6 +3901,111 @@
         target.addEventListener('load', ()=> target.classList.add('loaded'));
       }
     });
+  })();
+
+  // offer banner: 10%-off opt-in capture (email or WhatsApp)
+  //
+  // IMPORTANT — read before launch:
+  // This site is static (no backend), so right now leads are only saved to the
+  // visitor's own browser (localStorage, key "ffLeads") — good enough to demo
+  // the flow, but nobody at Frunch Forest can see these entries yet.
+  // To actually build a remarketing list, point OFFER_CAPTURE_ENDPOINT below at
+  // a real intake — e.g. a Google Form/Apps Script webhook, Mailchimp/Klaviyo
+  // form action, or a small serverless function — and this code will POST the
+  // lead there automatically (it already fails silently if the endpoint call
+  // errors, so the on-page experience never breaks).
+  (function(){
+    const OFFER_CAPTURE_ENDPOINT = ''; // e.g. 'https://script.google.com/macros/s/XXXX/exec'
+    const OFFER_CODE = 'WELCOME10';
+    const WHATSAPP_BUSINESS_NUMBER = '919582122419';
+
+    const form = document.getElementById('offerCaptureForm');
+    if(!form) return;
+    const tabs = form.querySelectorAll('.offer-capture-tab');
+    const panels = form.querySelectorAll('.offer-capture-panel');
+    const notes = form.querySelectorAll('.offer-capture-wa-note');
+    const errorEl = document.getElementById('offerCaptureError');
+    const emailInput = document.getElementById('offerEmailInput');
+    const phoneInput = document.getElementById('offerPhoneInput');
+    const successEl = document.getElementById('offerCaptureSuccess');
+    const codeVal = document.getElementById('offerCaptureCodeVal');
+    const copyBtn = document.getElementById('offerCaptureCopyBtn');
+
+    let method = 'email';
+
+    function setMethod(next){
+      method = next;
+      tabs.forEach(t=>{
+        const isActive = t.getAttribute('data-method') === next;
+        t.classList.toggle('active', isActive);
+        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+      panels.forEach(p=> p.classList.toggle('active', p.getAttribute('data-panel') === next));
+      notes.forEach(n=>{ n.style.display = n.getAttribute('data-note') === next ? '' : 'none'; });
+      clearError();
+    }
+    tabs.forEach(t=> t.addEventListener('click', ()=> setMethod(t.getAttribute('data-method'))));
+
+    function clearError(){
+      errorEl.classList.remove('show'); errorEl.textContent = '';
+      emailInput.classList.remove('error'); phoneInput.classList.remove('error');
+    }
+    function showError(msg, input){
+      errorEl.textContent = msg; errorEl.classList.add('show');
+      input.classList.add('error');
+    }
+
+    function saveLead(entry){
+      try{
+        const leads = JSON.parse(localStorage.getItem('ffLeads') || '[]');
+        leads.push(entry);
+        localStorage.setItem('ffLeads', JSON.stringify(leads));
+      }catch(e){}
+      if(OFFER_CAPTURE_ENDPOINT){
+        fetch(OFFER_CAPTURE_ENDPOINT, {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json' },
+          body: JSON.stringify(entry)
+        }).catch(()=>{}); // never block the UX if the intake is unreachable
+      }
+    }
+
+    function revealSuccess(){
+      codeVal.textContent = OFFER_CODE;
+      successEl.classList.add('show');
+      form.classList.add('is-submitted');
+    }
+
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      clearError();
+
+      if(method === 'email'){
+        const val = emailInput.value.trim();
+        const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+        if(!ok){ showError('Enter a valid email address.', emailInput); return; }
+        saveLead({ method:'email', value: val, source:'offer-banner', ts: new Date().toISOString() });
+        revealSuccess();
+      } else {
+        const raw = phoneInput.value.trim().replace(/\D/g, '');
+        const ok = /^[6-9]\d{9}$/.test(raw);
+        if(!ok){ showError('Enter a valid 10-digit WhatsApp number.', phoneInput); return; }
+        saveLead({ method:'whatsapp', value: raw, source:'offer-banner', ts: new Date().toISOString() });
+        const msg = encodeURIComponent(`Hi Frunch Forest, please send my 10% off code. My number is +91${raw}.`);
+        window.open(`https://wa.me/${WHATSAPP_BUSINESS_NUMBER}?text=${msg}`, '_blank', 'noopener');
+        revealSuccess();
+      }
+    });
+
+    if(copyBtn){
+      copyBtn.addEventListener('click', ()=>{
+        navigator.clipboard?.writeText(OFFER_CODE).then(()=>{
+          const original = copyBtn.textContent;
+          copyBtn.textContent = 'Copied!';
+          setTimeout(()=> copyBtn.textContent = original, 1800);
+        }).catch(()=>{});
+      });
+    }
   })();
 
   // footer newsletter: client-side only (no backend) — just confirm and reset
