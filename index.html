@@ -1719,18 +1719,22 @@
     color:var(--parchment); letter-spacing:0.02em; margin:0;
   }
 
-  /* ---------- testimonials ---------- */
+  /* ---------- testimonials (bento) ---------- */
   #testimonials{ background:var(--parchment); }
   .testimonial-grid{
-    display:grid; grid-template-columns:repeat(3, 1fr); gap:24px;
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr 0.85fr;
+    grid-template-rows:auto auto;
+    gap:20px;
   }
-  @media (max-width:900px){ .testimonial-grid{ grid-template-columns:repeat(2,1fr); } }
-  @media (max-width:640px){ .testimonial-grid{ grid-template-columns:1fr; } }
   .testimonial-card{
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
     background:var(--parchment-deep);
     border:1px solid var(--paper-line);
-    border-radius:20px;
-    padding:32px 28px 28px;
+    border-radius:22px;
+    padding:30px 26px 26px;
     display:flex; flex-direction:column;
     transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease;
   }
@@ -1739,23 +1743,86 @@
     box-shadow:0 24px 40px -22px rgba(19,42,30,0.28);
     border-color:rgba(201,151,59,0.45);
   }
-  .testimonial-card .quote-mark{
+  /* the "hero" tile of the bento — taller, spans both rows in column 1 */
+  .testimonial-card.featured{
+    grid-column:1; grid-row:1 / 3;
+    padding:38px 32px 32px;
+    background:linear-gradient(165deg, var(--parchment-deep), var(--parchment) 82%);
+  }
+  .testimonial-card:nth-of-type(2){ grid-column:2 / 4; grid-row:1; }
+  .testimonial-card:nth-of-type(3){ grid-column:2; grid-row:2; }
+
+  /* giant background watermark quote mark, clipped by the card's rounded corners */
+  .testimonial-card .watermark-quote{
+    position:absolute;
+    top:-0.28em; right:-0.04em;
     font-family:'Fraunces', serif; font-style:italic; font-weight:600;
-    font-size:2.6rem; color:var(--gold-2); line-height:0.6; margin-bottom:14px; display:block;
+    font-size:7.5rem; line-height:1;
+    color:var(--gold-2); opacity:0.12;
+    z-index:0; pointer-events:none;
+    transform:scaleX(-1);
   }
-  .testimonial-card .stars{
-    color:var(--gold-2); font-size:0.85rem; letter-spacing:3px; margin-bottom:14px;
+  .testimonial-card.featured .watermark-quote{ font-size:10.5rem; opacity:0.14; }
+
+  .testimonial-card .stars{ position:relative; z-index:1; color:var(--gold-2); font-size:0.85rem; letter-spacing:3px; margin-bottom:12px; }
+
+  /* verified-buyer badge */
+  .verified-badge{
+    position:relative; z-index:1;
+    display:inline-flex; align-items:center; gap:6px;
+    align-self:flex-start;
+    padding:5px 11px 5px 8px;
+    margin-bottom:16px;
+    border-radius:999px;
+    background:rgba(62,124,74,0.1);
+    border:1px solid rgba(62,124,74,0.32);
+    color:var(--forest-mid);
+    font-family:'JetBrains Mono', monospace; font-size:0.64rem; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.05em;
   }
+  .verified-badge svg{ width:12px; height:12px; flex-shrink:0; }
+
   .testimonial-card p.quote-text{
-    font-size:0.96rem; color:rgba(34,30,23,0.8); margin-bottom:26px; flex-grow:1;
+    position:relative; z-index:1;
+    font-size:0.96rem; color:rgba(34,30,23,0.8); margin-bottom:24px; flex-grow:1;
   }
-  .testimonial-who{ display:flex; align-items:center; gap:12px; }
+  .testimonial-card.featured p.quote-text{
+    font-family:'Fraunces', serif; font-style:italic; font-weight:500;
+    font-size:1.2rem; line-height:1.45; color:var(--forest-dark);
+  }
+
+  .testimonial-who{ position:relative; z-index:1; display:flex; align-items:center; gap:14px; }
+
+  /* avatar re-imagined as a rotated wax-seal / stamp instead of a flat circle */
   .testimonial-avatar{
-    width:42px; height:42px; border-radius:50%; flex-shrink:0;
+    position:relative;
+    width:44px; height:44px; flex-shrink:0;
+    border-radius:11px;
     display:flex; align-items:center; justify-content:center;
-    font-family:'Anton', sans-serif; font-size:0.9rem;
-    background:linear-gradient(135deg, var(--forest-mid), var(--forest-dark));
+    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:0.95rem;
     color:var(--parchment);
+    background:
+      radial-gradient(circle at 28% 26%, rgba(243,236,224,0.22), transparent 46%),
+      linear-gradient(150deg, var(--forest-mid), var(--forest-dark));
+    box-shadow:0 6px 14px -6px rgba(19,42,30,0.5);
+    transform:rotate(-5deg);
+  }
+  .testimonial-avatar::before{
+    content:"";
+    position:absolute; inset:-5px;
+    border-radius:13px;
+    border:1.5px solid rgba(201,151,59,0.55);
+    transform:rotate(5deg);
+  }
+  .testimonial-avatar::after{
+    content:"✓";
+    position:absolute; bottom:-5px; right:-5px;
+    width:17px; height:17px; border-radius:50%;
+    background:var(--gold-2); color:var(--forest-dark);
+    font-size:0.55rem; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    border:2px solid var(--parchment-deep);
+    transform:rotate(5deg);
   }
   .testimonial-who div{ display:flex; flex-direction:column; }
   .testimonial-who .name{ font-weight:700; font-size:0.94rem; color:var(--forest-dark); }
@@ -1763,15 +1830,36 @@
     font-family:'JetBrains Mono', monospace; font-size:0.7rem; color:rgba(34,30,23,0.55);
     text-transform:uppercase; letter-spacing:0.04em; margin-top:2px;
   }
+
+  /* stat block sits inside the bento as its own dark tile */
   .testimonial-strip{
-    display:flex; gap:34px; flex-wrap:wrap; margin-top:44px;
-    border-top:1px solid var(--paper-line); padding-top:24px;
+    grid-column:3; grid-row:2;
+    display:flex; flex-direction:column; justify-content:center; gap:16px;
+    background:var(--forest-dark);
+    border-radius:22px;
+    padding:26px 24px;
   }
   .testimonial-strip .stat b{
-    display:block; font-family:'Anton', sans-serif; font-size:1.5rem; color:var(--forest-dark);
+    display:block; font-family:'Anton', sans-serif; font-size:1.55rem; color:var(--gold-1);
   }
   .testimonial-strip .stat span{
-    font-size:0.78rem; color:rgba(34,30,23,0.6); font-weight:600; text-transform:uppercase; letter-spacing:0.03em;
+    font-size:0.72rem; color:rgba(243,236,224,0.65); font-weight:600; text-transform:uppercase; letter-spacing:0.03em;
+  }
+
+  @media (max-width:900px){
+    .testimonial-grid{ grid-template-columns:repeat(2,1fr); grid-template-rows:auto auto auto; }
+    .testimonial-card.featured{ grid-column:1 / 3; grid-row:1; }
+    .testimonial-card:nth-of-type(2){ grid-column:1; grid-row:2; }
+    .testimonial-card:nth-of-type(3){ grid-column:2; grid-row:2; }
+    .testimonial-strip{ grid-column:1 / 3; grid-row:3; flex-direction:row; justify-content:space-around; }
+  }
+  @media (max-width:640px){
+    .testimonial-grid{ grid-template-columns:1fr; grid-template-rows:none; }
+    .testimonial-card, .testimonial-strip{ grid-column:1; grid-row:auto; }
+    .testimonial-card .watermark-quote{ font-size:5.5rem; }
+    .testimonial-card.featured .watermark-quote{ font-size:6.5rem; }
+    .testimonial-card.featured p.quote-text{ font-size:1.08rem; }
+    .testimonial-strip{ flex-direction:row; flex-wrap:wrap; gap:20px 28px; }
   }
 
   /* ---------- faq ---------- */
@@ -3006,9 +3094,13 @@
       <p>Real words from the families and businesses who keep coming back for another pack.</p>
     </div>
     <div class="testimonial-grid">
-      <div class="testimonial-card reveal">
-        <span class="quote-mark">"</span>
+      <div class="testimonial-card featured reveal">
+        <span class="watermark-quote">"</span>
         <div class="stars">★★★★★</div>
+        <span class="verified-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+          Verified Buyer
+        </span>
         <p class="quote-text">The almonds taste like they were roasted at home — genuinely fresh, and the pouch kept them crisp all the way from Delhi to Bengaluru.</p>
         <div class="testimonial-who">
           <div class="testimonial-avatar">P</div>
@@ -3019,8 +3111,12 @@
         </div>
       </div>
       <div class="testimonial-card reveal">
-        <span class="quote-mark">"</span>
+        <span class="watermark-quote">"</span>
         <div class="stars">★★★★★</div>
+        <span class="verified-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+          Verified Buyer
+        </span>
         <p class="quote-text">We order the mixed nuts and fox nuts every month for the office pantry now. No weird aftertaste, no preservatives — just honest quality.</p>
         <div class="testimonial-who">
           <div class="testimonial-avatar">R</div>
@@ -3031,8 +3127,12 @@
         </div>
       </div>
       <div class="testimonial-card reveal">
-        <span class="quote-mark">"</span>
+        <span class="watermark-quote">"</span>
         <div class="stars">★★★★★</div>
+        <span class="verified-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+          Verified Buyer
+        </span>
         <p class="quote-text">Gifted the assorted box for Diwali and every single relative asked where it was from. The packaging alone felt premium.</p>
         <div class="testimonial-who">
           <div class="testimonial-avatar">A</div>
@@ -3042,16 +3142,16 @@
           </div>
         </div>
       </div>
+      <div class="testimonial-strip reveal">
+        <div class="stat"><b>4.9★</b><span>Average rating</span></div>
+        <div class="stat"><b>500+</b><span>Happy families</span></div>
+        <div class="stat"><b>98%</b><span>Repeat orders</span></div>
+      </div>
     </div>
     <div class="see-all-wrap">
       <a class="btn-primary see-all-btn" href="testimonials.html">See All Reviews
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
       </a>
-    </div>
-    <div class="testimonial-strip reveal">
-      <div class="stat"><b>4.9★</b><span>Average rating</span></div>
-      <div class="stat"><b>500+</b><span>Happy families</span></div>
-      <div class="stat"><b>98%</b><span>Repeat orders</span></div>
     </div>
   </div>
 </section>
