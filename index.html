@@ -398,6 +398,13 @@
     object-fit:cover;
     z-index:0;
   }
+  /* the overlay is already ~90%+ opaque, so the video adds little
+     visually — but decoding/compositing it every frame while the
+     section scrolls in and out of view is expensive on mobile GPUs.
+     Drop it entirely on small screens. */
+  @media (max-width:780px){
+    .hero-video-bg{ display:none; }
+  }
   .hero-video-overlay{
     position:absolute; inset:0;
     z-index:1;
@@ -3383,6 +3390,22 @@
       if(viewEl && !toViewEl) html.classList.remove('cursor-view');
       if(hoverEl && !toHoverEl) html.classList.remove('cursor-hover');
     });
+  })();
+
+  // stop the hero background video from decoding on mobile — it's
+  // hidden under the opaque overlay anyway, and letting it keep
+  // decoding/compositing while the section scrolls is what was
+  // causing the jank
+  (function(){
+    const heroVideo = document.querySelector('.hero-video-bg');
+    if(!heroVideo) return;
+    const mq = window.matchMedia('(max-width:780px)');
+    function syncVideoState(){
+      if(mq.matches) heroVideo.pause();
+      else heroVideo.play().catch(()=>{});
+    }
+    syncVideoState();
+    mq.addEventListener ? mq.addEventListener('change', syncVideoState) : mq.addListener(syncVideoState);
   })();
 
   // cursor spotlight in hero
