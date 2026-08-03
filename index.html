@@ -3378,20 +3378,14 @@
     });
 
     const hoverSelector = 'a, button, [role="button"], input, textarea, select, .nutrient-toggle, .faq-question, .gifting-tag';
-    const viewSelector = '.product-card';
 
     document.addEventListener('mouseover', (e)=>{
-      const viewEl = e.target.closest(viewSelector);
       const hoverEl = e.target.closest(hoverSelector);
-      if(viewEl){ html.classList.add('cursor-view'); html.classList.remove('cursor-hover'); }
-      else if(hoverEl){ html.classList.add('cursor-hover'); html.classList.remove('cursor-view'); }
+      if(hoverEl){ html.classList.add('cursor-hover'); }
     });
     document.addEventListener('mouseout', (e)=>{
-      const viewEl = e.target.closest(viewSelector);
       const hoverEl = e.target.closest(hoverSelector);
-      const toViewEl = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest(viewSelector) : null;
       const toHoverEl = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest(hoverSelector) : null;
-      if(viewEl && !toViewEl) html.classList.remove('cursor-view');
       if(hoverEl && !toHoverEl) html.classList.remove('cursor-hover');
     });
   })();
