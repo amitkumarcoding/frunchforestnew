@@ -219,6 +219,47 @@
   }
   .empty-state a{ color:var(--gold-1); text-decoration:underline; }
 
+  /* ---------- you may also like ---------- */
+  .related-section{ margin-top:90px; }
+  .related-header{
+    display:flex; align-items:baseline; justify-content:space-between;
+    flex-wrap:wrap; gap:12px; margin-bottom:26px;
+  }
+  .related-header h2{ font-size:clamp(1.5rem, 3vw, 2.1rem); color:var(--parchment); }
+  .related-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; }
+  @media (max-width:860px){ .related-grid{ grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:560px){ .related-grid{ grid-template-columns:1fr; } }
+  .related-card{
+    display:block; text-decoration:none; color:inherit;
+    background:rgba(243,236,224,0.04);
+    border:1px solid rgba(243,236,224,0.14);
+    border-radius:18px; overflow:hidden;
+    cursor:pointer;
+    transition:transform .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .related-card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(201,151,59,0.55);
+    background:rgba(243,236,224,0.07);
+  }
+  .related-card .rc-photo{ aspect-ratio:4/3; overflow:hidden; background:rgba(243,236,224,0.06); }
+  .related-card .rc-photo img{
+    width:100%; height:100%; object-fit:cover;
+    transition:transform .45s ease;
+  }
+  .related-card:hover .rc-photo img{ transform:scale(1.06); }
+  .related-card .rc-body{ padding:16px 18px 20px; }
+  .related-card .rc-tag{
+    display:inline-block; font-family:'JetBrains Mono', monospace;
+    font-size:0.65rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--forest-light); margin-bottom:8px;
+  }
+  .related-card h3{ font-size:1.1rem; color:var(--parchment); margin-bottom:2px; }
+  .related-card .rc-hindi{
+    font-family:'Fraunces', serif; font-style:italic;
+    font-size:0.82rem; color:rgba(243,236,224,0.6);
+  }
+
   footer{
     position:relative;
     background:var(--forest-dark); color:var(--parchment);
@@ -480,6 +521,63 @@
     return d.innerHTML;
   }
 
+  // Fallback catalog used for "You may also like" when the full product
+  // list from products.html hasn't been passed along via sessionStorage.
+  // Replace image paths / copy here with your real catalog data if you have it.
+  const CATALOG = [
+    { slug:'almonds',  name:'Almonds',            hindi:'बादाम',   tag:'Farm-fresh pick', image:'./image/almonds.png',  bestSeller:true,
+      bullets:['Hand-sorted for size and quality','Rich in protein and healthy fats','No preservatives, no additives'],
+      packs:['200g','500g','1kg'] },
+    { slug:'cashews',  name:'Cashews',             hindi:'काजू',    tag:'Customer favorite', image:'./image/cashews.png', bestSeller:false,
+      bullets:['Creamy, whole W-grade kernels','Lightly processed, naturally sweet','Sealed fresh for lasting crunch'],
+      packs:['200g','500g','1kg'] },
+    { slug:'walnuts',  name:'Walnuts',             hindi:'अखरोट',   tag:'Farm-fresh pick', image:'./image/walnuts.png', bestSeller:false,
+      bullets:['Light, golden kernel halves','Great source of omega-3s','No preservatives, no additives'],
+      packs:['200g','500g','1kg'] },
+    { slug:'raisins',  name:'Raisins',             hindi:'किशमिश', tag:'Everyday snacking', image:'./image/raisins.png', bestSeller:false,
+      bullets:['Naturally sun-dried and sweet','No added sugar or sulphur','Soft texture, seedless'],
+      packs:['200g','500g','1kg'] },
+    { slug:'makhaana', name:'Fox Nuts (Makhaana)', hindi:'मखाना',   tag:'Light & guilt-free', image:'./image/makhaana.png', bestSeller:false,
+      bullets:['Light, airy, roasted texture','Low calorie, high in fiber','No preservatives, no additives'],
+      packs:['100g','250g','500g'] }
+  ];
+
+  function renderRelated(current){
+    const pool = CATALOG.filter(p => !current || p.slug !== current.slug);
+    const picks = pool.slice(0, 3);
+    if(!picks.length) return '';
+
+    const cards = picks.map(p => `
+      <a class="related-card" href="details.html?slug=${encodeURIComponent(p.slug)}" data-slug="${esc(p.slug)}">
+        <div class="rc-photo"><img src="${p.image}" alt="${esc(p.name)}"></div>
+        <div class="rc-body">
+          <span class="rc-tag">${esc(p.tag)}</span>
+          <h3>${esc(p.name)}</h3>
+          <span class="rc-hindi">${esc(p.hindi)}</span>
+        </div>
+      </a>`).join('');
+
+    return `
+      <div class="related-section">
+        <div class="related-header">
+          <h2>You may also like</h2>
+        </div>
+        <div class="related-grid">${cards}</div>
+      </div>`;
+  }
+
+  // Store the picked product's full data before navigating, same as the
+  // product cards on products.html are expected to do.
+  document.addEventListener('click', function(e){
+    const card = e.target.closest('.related-card');
+    if(!card) return;
+    const slug = card.getAttribute('data-slug');
+    const picked = CATALOG.find(p => p.slug === slug);
+    if(picked){
+      try{ sessionStorage.setItem('selectedProduct', JSON.stringify(picked)); }catch(err){}
+    }
+  });
+
   function render(product){
     const wrap = document.getElementById('detailWrap');
 
@@ -488,7 +586,8 @@
         <div class="empty-state">
           <h2 style="font-size:1.6rem; margin-bottom:14px;">We couldn't find that product</h2>
           <p>Head back to <a href="index.html#products">the range</a> and pick one to see its details.</p>
-        </div>`;
+        </div>
+        ${renderRelated(null)}`;
       return;
     }
 
@@ -527,7 +626,8 @@
             <div><b>Quality guaranteed</b>Every batch checked before it ships.</div>
           </div>
         </div>
-      </div>`;
+      </div>
+      ${renderRelated(product)}`;
   }
 
   const header = document.getElementById('siteHeader');
