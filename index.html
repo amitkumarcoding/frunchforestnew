@@ -1841,12 +1841,44 @@
       radial-gradient(ellipse 600px 500px at 100% 100%, rgba(143,191,110,0.08), transparent 60%);
   }
   footer .wrap{ position:relative; z-index:1; }
-  .footer-grid{
-    display:grid; grid-template-columns:1.3fr 0.8fr 0.8fr 1fr; gap:40px;
+  .footer-top{
+    display:grid; grid-template-columns:1.25fr 2fr 1fr; gap:56px;
     padding-bottom:52px; border-bottom:1px solid rgba(243,236,224,0.12);
   }
-  @media (max-width:900px){ .footer-grid{ grid-template-columns:1fr 1fr; gap:36px 32px; } }
-  @media (max-width:560px){ .footer-grid{ grid-template-columns:1fr; gap:36px; } }
+  .footer-link-groups{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:32px;
+  }
+  .footer-link-groups .footer-col + .footer-col{ position:relative; }
+  .footer-link-groups .footer-col + .footer-col::before{
+    content:""; position:absolute; left:-16px; top:2px; bottom:2px; width:1px;
+    background:rgba(243,236,224,0.1);
+  }
+  .footer-contact-card{
+    background:rgba(243,236,224,0.045);
+    border:1px solid rgba(243,236,224,0.14);
+    border-radius:18px;
+    padding:26px 26px 24px;
+    align-self:start;
+  }
+  .footer-contact-card .btn-primary{
+    width:100%; justify-content:center; margin-top:18px;
+    background:linear-gradient(120deg, var(--gold-3), var(--gold-1));
+    color:var(--forest-dark);
+  }
+  .footer-contact-card .btn-primary:hover{ background:linear-gradient(120deg, var(--gold-2), var(--gold-1)); }
+  @media (max-width:1080px){
+    .footer-top{ grid-template-columns:1fr 1fr; gap:40px 32px; }
+    .footer-about{ grid-column:1 / -1; }
+    .footer-link-groups{ grid-column:1 / -1; grid-template-columns:repeat(3, 1fr); gap:32px 28px; }
+    .footer-contact-card{ grid-column:1 / -1; max-width:420px; }
+  }
+  @media (max-width:640px){
+    .footer-link-groups{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:420px){
+    .footer-link-groups{ grid-template-columns:1fr; }
+    .footer-contact-card{ max-width:none; }
+  }
   .footer-brand{ display:flex; align-items:center; gap:14px; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid rgba(243,236,224,0.1); }
   .footer-brand img{ width:52px; height:52px; object-fit:contain; }
   .footer-brand div span{ display:block; }
@@ -1863,7 +1895,7 @@
     transition:color .2s ease, padding-left .2s ease; display:inline-block;
   }
   .footer-links a:hover{ color:var(--parchment); padding-left:4px; }
-  .footer-contact-list{ list-style:none; display:flex; flex-direction:column; gap:16px; margin-bottom:22px; }
+  .footer-contact-list{ list-style:none; display:flex; flex-direction:column; gap:16px; margin-bottom:0; }
   .footer-contact-list li{ display:flex; flex-direction:column; gap:3px; }
   .footer-contact-list .k{
     font-family:'JetBrains Mono', monospace; font-size:0.66rem; letter-spacing:0.08em;
@@ -1914,14 +1946,7 @@
     .footer-quick-contact-item{ flex:1 1 100%; }
   }
 
-  /* ---------- footer: column dividers on desktop ---------- */
-  @media (min-width:901px){
-    .footer-col{ position:relative; }
-    .footer-col + .footer-col::before{
-      content:""; position:absolute; left:-20px; top:2px; bottom:2px; width:1px;
-      background:rgba(243,236,224,0.08);
-    }
-  }
+  /* ---------- footer: column dividers handled within .footer-link-groups ---------- */
   .footer-badges{
     display:flex; gap:14px; flex-wrap:wrap;
     padding:32px 0; border-bottom:1px solid rgba(243,236,224,0.12);
@@ -3166,7 +3191,7 @@
         </a>
       </div>
     </div>
-    <div class="footer-grid">
+    <div class="footer-top">
       <div class="footer-col footer-about">
         <div class="footer-brand">
          <img src="./image/logo.png" alt="">
@@ -3199,28 +3224,41 @@
           </a>
         </div>
       </div>
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <ul class="footer-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#why">Why Us</a></li>
-          <li><a href="#products">Products</a></li>
-          <li><a href="#packaging">Packaging</a></li>
-          <li><a href="#testimonials">Reviews</a></li>
-          <li><a href="#faq">FAQ</a></li>
-        </ul>
+
+      <div class="footer-link-groups">
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#why">Why Us</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#packaging">Packaging</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Our Products</h4>
+          <ul class="footer-links">
+            <li><a href="#products">Almonds</a></li>
+            <li><a href="#products">Cashews</a></li>
+            <li><a href="#products">Walnuts</a></li>
+            <li><a href="#products">Raisins</a></li>
+            <li><a href="#products">Fox Nuts (Makhaana)</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Policies</h4>
+          <ul class="footer-links">
+            <li><a href="./return-refund-policy.html">Return &amp; Refund Policy</a></li>
+            <li><a href="./shipping-policy.html">Shipping Policy</a></li>
+            <li><a href="./privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="./terms-and-conditions.html">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="footer-col">
-        <h4>Our Products</h4>
-        <ul class="footer-links">
-          <li><a href="#products">Almonds</a></li>
-          <li><a href="#products">Cashews</a></li>
-          <li><a href="#products">Walnuts</a></li>
-          <li><a href="#products">Raisins</a></li>
-          <li><a href="#products">Fox Nuts (Makhaana)</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
+
+      <div class="footer-col footer-contact-card">
         <h4>Get In Touch</h4>
         <ul class="footer-contact-list">
           <li>
@@ -3252,7 +3290,6 @@
     <div class="footer-bottom">
       <div class="footer-bottom-left">
         <span>© 2026 Frunch Forest. All rights reserved.</span>
-        <span class="footer-legal-links"><a href="#">Privacy Policy</a><span>·</span><a href="#">Terms of Service</a></span>
       </div>
     </div>
   </div>
