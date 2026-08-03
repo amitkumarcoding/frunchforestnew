@@ -1,0 +1,8 @@
+{
+  "name": "Frunch Forest",
+  "short_name": "Frunch Forest",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F3ECE0",
+  "theme_color": "#F3ECE0"
+}
