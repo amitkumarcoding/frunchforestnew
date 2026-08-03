@@ -1635,6 +1635,14 @@
   }
   .offer-capture-code button:hover{ background:rgba(241,212,138,0.3); }
   .offer-capture-success p{ font-size:0.85rem; margin:0; color:rgba(34,30,23,0.75); }
+  .offer-capture-waiting{ display:flex; align-items:center; gap:10px; }
+  .offer-capture-spinner{
+    flex:0 0 auto; width:14px; height:14px; border-radius:50%;
+    border:2px solid rgba(37,211,102,0.25); border-top-color:#25D366;
+    animation:offerSpin .8s linear infinite;
+  }
+  @keyframes offerSpin{ to{ transform:rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce){ .offer-capture-spinner{ animation:none; } }
   @media (max-width:760px){
     .offer-capture{ width:100%; }
     .offer-capture-panel input{ flex:1 1 100%; }
@@ -2859,42 +2867,23 @@
   <div class="wrap">
     <div class="offer-banner reveal">
       <div>
-        <h3>Welcome to the Frunch Forest family</h3>
-        <p>Get 10% OFF on your first order — tell us where to send the code.</p>
+        <p>Get 10% OFF on your first order — tell us your WhatsApp number and we'll send the code.</p>
       </div>
 
       <form class="offer-capture" id="offerCaptureForm" novalidate>
-        <div class="offer-capture-tabs" role="tablist" aria-label="Choose how to get your code">
-          <button type="button" class="offer-capture-tab active" data-method="email" role="tab" aria-selected="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6c0-1.1-.9-2-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6Z"></path><path d="m22 6-10 7L2 6"></path></svg>
-            Email
-          </button>
-          <button type="button" class="offer-capture-tab" data-method="whatsapp" role="tab" aria-selected="false">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.65-4.95A9 9 0 1 1 8.05 19.35Z"></path></svg>
-            WhatsApp
-          </button>
-        </div>
-
-        <div class="offer-capture-panel active" data-panel="email">
-          <input type="email" id="offerEmailInput" placeholder="you@email.com" autocomplete="email" aria-label="Email address">
-          <button type="submit" class="offer-capture-submit">Get My Code →</button>
-        </div>
-
-        <div class="offer-capture-panel" data-panel="whatsapp">
+        <div class="offer-capture-panel active" data-panel="whatsapp">
           <input type="tel" id="offerPhoneInput" placeholder="10-digit WhatsApp number" autocomplete="tel" inputmode="numeric" maxlength="10" aria-label="WhatsApp number">
           <button type="submit" class="offer-capture-submit">Send Code on WhatsApp →</button>
         </div>
 
         <p class="offer-capture-error" id="offerCaptureError"></p>
-        <p class="offer-capture-wa-note" data-note="email">We'll only use this to send your code and occasional offers — no spam.</p>
-        <p class="offer-capture-wa-note" data-note="whatsapp" style="display:none;">Opens WhatsApp with your code request pre-filled — just hit send.</p>
+        <p class="offer-capture-wa-note">Opens WhatsApp with your code request pre-filled — just hit send.</p>
 
         <div class="offer-capture-success" id="offerCaptureSuccess">
-          <div class="offer-capture-code">
-            <span class="code-val" id="offerCaptureCodeVal">FF10WELCOME</span>
-            <button type="button" id="offerCaptureCopyBtn">Copy</button>
-          </div>
-          <p>Code's yours — <a href="./products.html" style="color:var(--forest-dark); text-decoration:underline;">start shopping →</a></p>
+          <p class="offer-capture-waiting">
+            <span class="offer-capture-spinner" aria-hidden="true"></span>
+            We're sending your code on WhatsApp — keep waiting, it'll land in your chat shortly!
+          </p>
         </div>
       </form>
     </div>
@@ -3916,43 +3905,21 @@
   // errors, so the on-page experience never breaks).
   (function(){
     const OFFER_CAPTURE_ENDPOINT = ''; // e.g. 'https://script.google.com/macros/s/XXXX/exec'
-    const OFFER_CODE = 'WELCOME10';
     const WHATSAPP_BUSINESS_NUMBER = '919582122419';
 
     const form = document.getElementById('offerCaptureForm');
     if(!form) return;
-    const tabs = form.querySelectorAll('.offer-capture-tab');
-    const panels = form.querySelectorAll('.offer-capture-panel');
-    const notes = form.querySelectorAll('.offer-capture-wa-note');
     const errorEl = document.getElementById('offerCaptureError');
-    const emailInput = document.getElementById('offerEmailInput');
     const phoneInput = document.getElementById('offerPhoneInput');
     const successEl = document.getElementById('offerCaptureSuccess');
-    const codeVal = document.getElementById('offerCaptureCodeVal');
-    const copyBtn = document.getElementById('offerCaptureCopyBtn');
-
-    let method = 'email';
-
-    function setMethod(next){
-      method = next;
-      tabs.forEach(t=>{
-        const isActive = t.getAttribute('data-method') === next;
-        t.classList.toggle('active', isActive);
-        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      });
-      panels.forEach(p=> p.classList.toggle('active', p.getAttribute('data-panel') === next));
-      notes.forEach(n=>{ n.style.display = n.getAttribute('data-note') === next ? '' : 'none'; });
-      clearError();
-    }
-    tabs.forEach(t=> t.addEventListener('click', ()=> setMethod(t.getAttribute('data-method'))));
 
     function clearError(){
       errorEl.classList.remove('show'); errorEl.textContent = '';
-      emailInput.classList.remove('error'); phoneInput.classList.remove('error');
+      phoneInput.classList.remove('error');
     }
-    function showError(msg, input){
+    function showError(msg){
       errorEl.textContent = msg; errorEl.classList.add('show');
-      input.classList.add('error');
+      phoneInput.classList.add('error');
     }
 
     function saveLead(entry){
@@ -3971,41 +3938,30 @@
     }
 
     function revealSuccess(){
-      codeVal.textContent = OFFER_CODE;
       successEl.classList.add('show');
       form.classList.add('is-submitted');
     }
+
+    // returning visitor who already requested a code: skip the form, show the waiting message
+    try{
+      if(localStorage.getItem('ffOfferRequested') === '1'){
+        revealSuccess();
+      }
+    }catch(e){}
 
     form.addEventListener('submit', (e)=>{
       e.preventDefault();
       clearError();
 
-      if(method === 'email'){
-        const val = emailInput.value.trim();
-        const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-        if(!ok){ showError('Enter a valid email address.', emailInput); return; }
-        saveLead({ method:'email', value: val, source:'offer-banner', ts: new Date().toISOString() });
-        revealSuccess();
-      } else {
-        const raw = phoneInput.value.trim().replace(/\D/g, '');
-        const ok = /^[6-9]\d{9}$/.test(raw);
-        if(!ok){ showError('Enter a valid 10-digit WhatsApp number.', phoneInput); return; }
-        saveLead({ method:'whatsapp', value: raw, source:'offer-banner', ts: new Date().toISOString() });
-        const msg = encodeURIComponent(`Hi Frunch Forest, please send my 10% off code. My number is +91${raw}.`);
-        window.open(`https://wa.me/${WHATSAPP_BUSINESS_NUMBER}?text=${msg}`, '_blank', 'noopener');
-        revealSuccess();
-      }
+      const raw = phoneInput.value.trim().replace(/\D/g, '');
+      const ok = /^[6-9]\d{9}$/.test(raw);
+      if(!ok){ showError('Enter a valid 10-digit WhatsApp number.'); return; }
+      saveLead({ method:'whatsapp', value: raw, source:'offer-banner', ts: new Date().toISOString() });
+      try{ localStorage.setItem('ffOfferRequested', '1'); }catch(e){}
+      const msg = encodeURIComponent(`Hi Frunch Forest, please send my 10% off code. My number is +91${raw}.`);
+      window.open(`https://wa.me/${WHATSAPP_BUSINESS_NUMBER}?text=${msg}`, '_blank', 'noopener');
+      revealSuccess();
     });
-
-    if(copyBtn){
-      copyBtn.addEventListener('click', ()=>{
-        navigator.clipboard?.writeText(OFFER_CODE).then(()=>{
-          const original = copyBtn.textContent;
-          copyBtn.textContent = 'Copied!';
-          setTimeout(()=> copyBtn.textContent = original, 1800);
-        }).catch(()=>{});
-      });
-    }
   })();
 
   // footer newsletter: client-side only (no backend) — just confirm and reset
