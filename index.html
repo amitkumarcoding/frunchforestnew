@@ -2063,6 +2063,29 @@
   }
   .footer-brand{ display:flex; align-items:center; gap:14px; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid rgba(243,236,224,0.1); }
   .footer-brand img{ width:52px; height:52px; object-fit:contain; }
+
+  /* ---------- footer logo animation ---------- */
+  @keyframes footerLogoFloat{
+    0%, 100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-8px) rotate(-4deg); }
+  }
+  @keyframes footerLogoGlow{
+    0%, 100%{ filter:drop-shadow(0 0 0px rgba(201,151,59,0)); }
+    50%{ filter:drop-shadow(0 0 14px rgba(201,151,59,0.55)); }
+  }
+  .footer-logo-anim{
+    animation:footerLogoFloat 4.5s ease-in-out infinite, footerLogoGlow 4.5s ease-in-out infinite;
+    transition:transform .45s cubic-bezier(.34,1.56,.64,1);
+    will-change:transform, filter;
+  }
+  .footer-logo-anim:hover{
+    animation-play-state:paused;
+    transform:scale(1.12) rotate(6deg);
+    filter:drop-shadow(0 0 18px rgba(201,151,59,0.7));
+  }
+  @media (prefers-reduced-motion:reduce){
+    .footer-logo-anim{ animation:none; }
+  }
   .footer-brand div span{ display:block; }
   .footer-brand .name{ font-family:'Anton', sans-serif; font-size:1.3rem; letter-spacing:0.02em; }
   .footer-brand .tag{ font-family:'Fraunces', serif; font-style:italic; font-size:0.92rem; color:var(--forest-light); }
@@ -2418,6 +2441,7 @@
       <a href="#packaging">Packaging</a>
       <a href="#testimonials">Reviews</a>
       <a href="#faq">FAQ</a>
+      <a href="./blog.html">Nutrient Almanac</a>
       <a href="#contact">Contact</a>
     </nav>
     <a class="btn-download" href="./resources/frunch-forest-catalog.pdf" download="./resources/frunch-forest-catalog.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Download Catalog</a>
@@ -2440,7 +2464,8 @@
     <a href="#packaging"><span class="mm-index">04</span>Packaging</a>
     <a href="#testimonials"><span class="mm-index">05</span>Reviews</a>
     <a href="#faq"><span class="mm-index">06</span>FAQ</a>
-    <a href="#contact"><span class="mm-index">07</span>Contact</a>
+    <a href="./blog.html"><span class="mm-index">07</span>Nutrient Almanac</a>
+    <a href="#contact"><span class="mm-index">08</span>Contact</a>
   </div>
   <div class="mobile-menu-actions">
     <a class="btn-download" href="./resources/frunch-forest-catalog.pdf" download="./resources/frunch-forest-catalog.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Download Catalog</a>
@@ -3403,7 +3428,7 @@
     <div class="footer-top">
       <div class="footer-col footer-about">
         <div class="footer-brand">
-         <img style="width: 110px; height: 110px" src="./image/logo.png" alt="Frunch Forest Logo">
+         <img class="footer-logo-anim" style="width: 110px; height: 110px" src="./image/logo.png" alt="Frunch Forest Logo">
           <div>
             <span class="name">Frunch Forest</span>
             <span class="tag">crunch in every bite</span>
@@ -3444,6 +3469,7 @@
             <li><a href="#packaging">Packaging</a></li>
             <li><a href="#testimonials">Reviews</a></li>
             <li><a href="#faq">FAQ</a></li>
+            <li><a href="./blog.html">Nutrient Almanac</a></li>
           </ul>
         </div>
         <div class="footer-col">

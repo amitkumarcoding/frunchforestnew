@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#F3ECE0">
+<title>The Nutrient Almanac — Frunch Forest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest-dark:#132A1E;
+    --forest-mid:#3E7C4A;
+    --forest-light:#8FBF6E;
+    --parchment:#F3ECE0;
+    --parchment-deep:#E9DFCC;
+    --walnut:#5B3A24;
+    --amber:#C9973B;
+    --gold-1:#F1D48A;
+    --gold-2:#C9973B;
+    --gold-3:#8B6420;
+    --ink:#221E17;
+    --paper-line: rgba(34,30,23,0.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--parchment);
+    color:var(--ink);
+    font-family:'Manrope', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+
+  /* ---------- header (matches main site) ---------- */
+  header#siteHeader{
+    position:sticky; top:0; z-index:50;
+    background:rgba(243,236,224,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--paper-line);
+  }
+  .nav{
+    max-width:1280px; margin:0 auto; padding:16px 32px;
+    display:flex; align-items:center; justify-content:space-between; gap:24px;
+  }
+  .nav-brand{ display:flex; align-items:center; gap:10px; font-family:'Anton', sans-serif; font-size:1.1rem; }
+  .nav-brand img{ width:38px; height:38px; object-fit:contain; }
+  .nav-links{ display:flex; gap:26px; flex-wrap:wrap; }
+  .nav-links a{ text-decoration:none; font-size:0.92rem; font-weight:600; color:var(--forest-dark); position:relative; padding-bottom:2px; }
+  .nav-links a::after{ content:""; position:absolute; left:0; bottom:-2px; width:0; height:2px; background:var(--amber); transition:width .25s ease; }
+  .nav-links a:hover::after{ width:100%; }
+  .nav-cta{
+    background:var(--forest-dark); color:var(--parchment); text-decoration:none;
+    padding:10px 20px; border-radius:100px; font-weight:700; font-size:0.88rem;
+    white-space:nowrap; transition:transform .2s ease, background .2s ease;
+  }
+  .nav-cta:hover{ background:var(--gold-3); transform:translateY(-2px); }
+  @media(max-width:860px){ .nav-links{ display:none; } }
+
+  /* ---------- hero ---------- */
+  .blog-hero{
+    position:relative;
+    background:var(--forest-dark);
+    color:var(--parchment);
+    padding:100px 32px 90px;
+    overflow:hidden;
+  }
+  .blog-hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(143,191,110,0.18), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(201,151,59,0.16), transparent 45%);
+    pointer-events:none;
+  }
+  .blog-hero-wrap{ max-width:820px; margin:0 auto; position:relative; z-index:1; text-align:center; }
+  .blog-hero .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--gold-1); margin-bottom:22px;
+  }
+  .blog-hero .eyebrow::before, .blog-hero .eyebrow::after{ content:""; width:26px; height:1px; background:var(--gold-2); }
+  .blog-hero h1{
+    font-family:'Anton', sans-serif; font-weight:400; letter-spacing:0.01em;
+    font-size:clamp(2.4rem, 6vw, 4.2rem); line-height:1.02; margin-bottom:22px;
+  }
+  .blog-hero h1 em{ font-family:'Fraunces', serif; font-style:italic; font-weight:400; color:var(--gold-1); }
+  .blog-hero p{ font-size:1.05rem; color:rgba(243,236,224,0.72); max-width:560px; margin:0 auto; }
+
+  /* ---------- almanac intro strip ---------- */
+  .almanac-note{
+    max-width:1100px; margin:-46px auto 0; position:relative; z-index:2;
+    background:var(--parchment); border:1px solid var(--paper-line);
+    border-radius:18px; padding:28px 34px;
+    display:flex; gap:28px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+    box-shadow:0 24px 50px -30px rgba(19,42,30,0.35);
+  }
+  .almanac-note .k{ font-family:'JetBrains Mono', monospace; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--gold-3); display:block; margin-bottom:6px; }
+  .almanac-note p{ max-width:520px; color:rgba(34,30,23,0.75); font-size:0.95rem; }
+  .almanac-legend{ display:flex; gap:22px; flex-wrap:wrap; }
+  .almanac-legend span{ font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--walnut); }
+
+  /* ---------- specimen grid ---------- */
+  .specimens{ max-width:1100px; margin:0 auto; padding:90px 32px 60px; }
+  .specimens-head{ margin-bottom:44px; text-align:center; }
+  .specimens-head span{ font-family:'JetBrains Mono', monospace; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold-3); }
+  .specimens-head h2{ font-family:'Anton', sans-serif; font-weight:400; font-size:clamp(1.8rem,4vw,2.6rem); margin-top:10px; }
+
+  .specimen-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; }
+  @media(max-width:920px){ .specimen-grid{ grid-template-columns:1fr 1fr; } }
+  @media(max-width:620px){ .specimen-grid{ grid-template-columns:1fr; } }
+
+  .specimen-card{
+    background:var(--parchment-deep);
+    border:1px solid var(--paper-line);
+    border-radius:16px;
+    padding:26px 24px;
+    cursor:pointer;
+    position:relative;
+    transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+  }
+  .specimen-card:hover{ transform:translateY(-5px); box-shadow:0 20px 40px -28px rgba(19,42,30,0.4); border-color:rgba(201,151,59,0.5); }
+  .specimen-tag{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:'JetBrains Mono', monospace; font-size:0.68rem; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--forest-mid); margin-bottom:16px;
+  }
+  .specimen-tag .no{ color:var(--gold-3); }
+  .specimen-card h3{ font-family:'Anton', sans-serif; font-weight:400; font-size:1.3rem; color:var(--forest-dark); margin-bottom:10px; }
+  .specimen-card .lede{ font-size:0.92rem; color:rgba(34,30,23,0.7); margin-bottom:16px; }
+  .specimen-sources{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+  .specimen-sources span{
+    font-size:0.72rem; font-family:'JetBrains Mono', monospace;
+    border:1px solid rgba(91,58,36,0.3); color:var(--walnut);
+    padding:4px 10px; border-radius:100px;
+  }
+  .specimen-note{
+    max-height:0; overflow:hidden;
+    transition:max-height .45s ease, margin-top .45s ease;
+    font-size:0.9rem; color:rgba(34,30,23,0.78); border-top:1px dashed var(--paper-line);
+  }
+  .specimen-card.open .specimen-note{ max-height:220px; margin-top:14px; padding-top:14px; }
+  .specimen-toggle{
+    font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:var(--gold-3);
+    display:flex; align-items:center; gap:6px;
+  }
+  .specimen-toggle svg{ width:13px; height:13px; transition:transform .3s ease; }
+  .specimen-card.open .specimen-toggle svg{ transform:rotate(180deg); }
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- closing cta ---------- */
+  .blog-cta{
+    max-width:1100px; margin:40px auto 90px; padding:0 32px;
+  }
+  .blog-cta-inner{
+    background:var(--forest-dark); color:var(--parchment);
+    border-radius:20px; padding:46px 40px;
+    display:flex; align-items:center; justify-content:space-between; gap:28px; flex-wrap:wrap;
+  }
+  .blog-cta h3{ font-family:'Anton', sans-serif; font-weight:400; font-size:1.6rem; margin-bottom:8px; }
+  .blog-cta p{ color:rgba(243,236,224,0.68); font-size:0.94rem; max-width:420px; }
+  .blog-cta a{
+    background:linear-gradient(120deg, var(--gold-1), var(--gold-2));
+    color:var(--forest-dark); text-decoration:none; font-weight:700;
+    padding:14px 28px; border-radius:100px; white-space:nowrap;
+    transition:transform .2s ease;
+  }
+  .blog-cta a:hover{ transform:translateY(-2px); }
+
+  /* ---------- footer (trimmed, matches main site) ---------- */
+  footer{ background:var(--forest-dark); color:var(--parchment); padding:40px 32px; }
+  .footer-wrap{ max-width:1100px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; }
+  .footer-brand-mini{ display:flex; align-items:center; gap:12px; }
+  .footer-brand-mini img{ width:38px; height:38px; object-fit:contain; }
+  .footer-brand-mini span{ font-family:'Anton', sans-serif; font-size:1rem; }
+  footer p{ color:rgba(243,236,224,0.55); font-size:0.85rem; }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="nav">
+    <div class="nav-brand">
+      <img src="./image/logo.png" alt="Frunch Forest Logo">
+      <span>Frunch Forest</span>
+    </div>
+    <nav class="nav-links">
+      <a href="./index.html#about">About</a>
+      <a href="./index.html#products">Products</a>
+      <a href="./blog.html">Nutrient Almanac</a>
+      <a href="./index.html#faq">FAQ</a>
+      <a href="./index.html#contact">Contact</a>
+    </nav>
+    <a class="nav-cta" href="./index.html#contact">Get in touch</a>
+  </div>
+</header>
+
+<section class="blog-hero">
+  <div class="blog-hero-wrap">
+    <span class="eyebrow">Field Notes From The Forest</span>
+    <h1>The Nutrient <em>Almanac</em></h1>
+    <p>A short field guide to what's actually inside every handful — the vitamins, minerals and healthy fats that almonds, cashews, walnuts, raisins and fox nuts quietly carry to your plate.</p>
+  </div>
+</section>
+
+<div class="almanac-note reveal">
+  <div>
+    <span class="k">How to read this page</span>
+    <p>Each specimen card below covers one nutrient found in our dry fruits — what it does in the body, and which of our products carry it. Tap a card to open its full note.</p>
+  </div>
+  <div class="almanac-legend">
+    <span>06 SPECIMENS</span>
+    <span>5 SOURCE FRUITS</span>
+    <span>UPDATED 2026</span>
+  </div>
+</div>
+
+<section class="specimens">
+  <div class="specimens-head reveal">
+    <span>Specimen Index</span>
+    <h2>Six nutrients worth knowing</h2>
+  </div>
+
+  <div class="specimen-grid">
+
+    <div class="specimen-card reveal" onclick="this.classList.toggle('open')">
+      <div class="specimen-tag"><span class="no">NO. 01</span><span>PROTEIN</span></div>
+      <h3>Protein</h3>
+      <p class="lede">The building block your body uses to repair muscle and stay full for longer.</p>
+      <div class="specimen-sources"><span>Almonds</span><span>Cashews</span></div>
+      <div class="specimen-toggle">Read the field note <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+      <div class="specimen-note">
+        <p>A small handful of almonds or cashews carries a meaningful dose of plant protein alongside fibre, which is why they curb hunger far better than a snack of refined carbs. Pair them with a fruit or yoghurt for a more complete amino acid profile.</p>
+      </div>
+    </div>
+
+    <div class="specimen-card reveal" onclick="this.classList.toggle('open')">
+      <div class="specimen-tag"><span class="no">NO. 02</span><span>OMEGA-3 FATS</span></div>
+      <h3>Healthy Fats</h3>
+      <p class="lede">Not all fat is equal — these are the kind that support heart and brain health.</p>
+      <div class="specimen-sources"><span>Walnuts</span></div>
+      <div class="specimen-toggle">Read the field note <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+      <div class="specimen-note">
+        <p>Walnuts are one of the few plant sources with a genuinely useful amount of alpha-linolenic acid, a plant-based omega-3. Regularly including a few walnuts in the diet is commonly associated with better cholesterol balance and steadier energy through the day.</p>
+      </div>
+    </div>
+
+    <div class="specimen-card reveal" onclick="this.classList.toggle('open')">
+      <div class="specimen-tag"><span class="no">NO. 03</span><span>DIETARY FIBRE</span></div>
+      <h3>Fibre</h3>
+      <p class="lede">Keeps digestion moving and helps even out blood sugar swings after meals.</p>
+      <div class="specimen-sources"><span>Raisins</span><span>Almonds</span></div>
+      <div class="specimen-toggle">Read the field note <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+      <div class="specimen-note">
+        <p>Because raisins concentrate the fibre of fresh grapes into a smaller bite, a small portion goes a long way toward daily fibre needs. Combined with almond skins, which carry their own fibre and antioxidants, this pairing is a simple way to support gut health.</p>
+      </div>
+    </div>
+
+    <div class="specimen-card reveal" onclick="this.classList.toggle('open')">
+      <div class="specimen-tag"><span class="no">NO. 04</span><span>IRON</span></div>
+      <h3>Iron</h3>
+      <p class="lede">Essential for carrying oxygen through the blood and staving off fatigue.</p>
+      <div class="specimen-sources"><span>Raisins</span><span>Cashews</span></div>
+      <div class="specimen-toggle">Read the field note <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+      <div class="specimen-note">
+        <p>Raisins and cashews both carry non-heme iron, the plant-based form the body absorbs best when paired with vitamin C. A squeeze of lemon over a trail mix, or eating them alongside citrus, helps the body take up more of it.</p>
+      </div>
+    </div>
+
+    <div class="specimen-card reveal" onclick="this.classList.toggle('open')">
+      <div class="specimen-tag"><span class="no">NO. 05</span><span>MAGNESIUM</span></div>
+      <h3>Magnesium</h3>
+      <p class="lede">A quiet mineral behind muscle recovery, sleep quality and steady mood.</p>
+      <div class="specimen-sources"><span>Cashews</span><span>Fox Nuts</span></div>
+      <div class="specimen-toggle">Read the field note <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+      <div class="specimen-note">
+        <p>Cashews are one of the more magnesium-dense nuts, and roasted fox nuts (makhana) add their own light, low-fat contribution. Together they make an easy evening snack that doesn't sit heavy before bed.</p>
+      </div>
+    </div>
+
+    <div class="specimen-card reveal" onclick="this.classList.toggle('open')">
+      <div class="specimen-tag"><span class="no">NO. 06</span><span>ANTIOXIDANTS</span></div>
+      <h3>Antioxidants</h3>
+      <p class="lede">Plant compounds that help the body manage everyday cellular wear and tear.</p>
+      <div class="specimen-sources"><span>Walnuts</span><span>Raisins</span></div>
+      <div class="specimen-toggle">Read the field note <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+      <div class="specimen-note">
+        <p>The thin brown skin on a walnut and the dark skin of a raisin both concentrate polyphenols — so resist the urge to peel them. Left whole, both snacks do double duty as flavour and quiet cellular support.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="blog-cta reveal">
+  <div class="blog-cta-inner">
+    <div>
+      <h3>Taste the almanac</h3>
+      <p>Every specimen on this page is sitting in our current range — handpicked, farm-fresh, and shipped across India.</p>
+    </div>
+    <a href="./index.html#products">Shop the range →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-brand-mini">
+      <img src="./image/logo.png" alt="Frunch Forest Logo">
+      <span>Frunch Forest</span>
+    </div>
+    <p>© 2026 Frunch Forest. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold:0.15 });
+  revealEls.forEach(el=> io.observe(el));
+</script>
+
+</body>
+</html>
