@@ -1855,7 +1855,10 @@
   }
   @media (max-width:640px){
     .testimonial-grid{ grid-template-columns:1fr; grid-template-rows:none; }
-    .testimonial-card, .testimonial-strip{ grid-column:1; grid-row:auto; }
+    .testimonial-card, .testimonial-strip,
+    .testimonial-card.featured,
+    .testimonial-card:nth-of-type(2),
+    .testimonial-card:nth-of-type(3){ grid-column:1; grid-row:auto; }
     .testimonial-card .watermark-quote{ font-size:5.5rem; }
     .testimonial-card.featured .watermark-quote{ font-size:6.5rem; }
     .testimonial-card.featured p.quote-text{ font-size:1.08rem; }
